@@ -282,10 +282,18 @@ setPage("role");
   };
 
   const handleRoleContinue = () => {
-    if (!selectedRole) return;
-    setPage("profile");
-    showToast(`Role set to ${selectedRole} ✓`);
-  };
+  if (!selectedRole) return;
+
+  const saved = JSON.parse(localStorage.getItem("skillswap-user")) || {};
+  localStorage.setItem(
+    "skillswap-user",
+    JSON.stringify({ ...saved, profile, role: selectedRole })
+  );
+
+  setPage("profile");
+  showToast(`Role set to ${selectedRole} ✓`);
+};
+
 
   const addSkill = () => {
     const s = newSkill.trim();
