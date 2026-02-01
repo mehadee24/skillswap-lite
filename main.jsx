@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const THEME = {
   bg: "#0f1117",
@@ -351,7 +351,7 @@ export default function App() {
           </div>
         </div>
       )}
-
+    
       {/* ========== PAGE 2: ROLE SELECTION ========== */}
       {page === "role" && (
         <div className="page-wrap">
