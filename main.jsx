@@ -254,8 +254,14 @@ export default function App() {
         return;
       }
       setAuthError("");
-      setProfile({ ...profile, name: authData.name });
-      setPage("role");
+      const newProfile = { ...profile, name: authData.name };
+setProfile(newProfile);
+localStorage.setItem(
+  "skillswap-user",
+  JSON.stringify({ profile: newProfile, role: null })
+);
+setPage("role");
+
       showToast("Account created successfully ✓");
     } else {
       if (!authData.email || !authData.password) {
@@ -263,8 +269,14 @@ export default function App() {
         return;
       }
       setAuthError("");
-      setProfile({ ...profile, name: authData.name || "User" });
-      setPage("role");
+      const newProfile = { ...profile, name: authData.name || "User" };
+setProfile(newProfile);
+localStorage.setItem(
+  "skillswap-user",
+  JSON.stringify({ profile: newProfile, role: null })
+);
+setPage("role");
+
       showToast("Logged in successfully ✓");
     }
   };
