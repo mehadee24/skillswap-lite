@@ -1,0 +1,19 @@
+{
+  "name": "skillswap-lite",
+  "version": "1.0.0",
+  "description": "A service marketplace platform",
+  "homepage": "https://github.com/mehadee24/skillswap-lite#readme",
+  "bugs": {
+    "url": "https://github.com/mehadee24/skillswap-lite/issues"
+  },
+  "repository": {
+    "url": "git+https://github.com/mehadee24/skillswap-lite.git"
+  },
+  "license": "ISC",
+  "author": "mehadee,rakib,al-amin",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
