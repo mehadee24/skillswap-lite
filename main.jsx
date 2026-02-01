@@ -222,6 +222,16 @@ export default function App() {
   // Profile state
   const [profile, setProfile] = useState({ name: "", bio: "", skills: [], available: true, website: "" });
   const [newSkill, setNewSkill] = useState("");
+  useEffect(() => {
+  const saved = localStorage.getItem("skillswap-user");
+  if (saved) {
+    const data = JSON.parse(saved);
+    setProfile(data.profile);
+    setSelectedRole(data.role);
+    setPage("profile");
+  }
+}, []);
+
 
   const showToast = (msg) => {
     setToast(msg);
