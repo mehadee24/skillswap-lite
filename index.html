@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSwap lite | Exchange Skills Seamlessly</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <i class="fas fa-exchange-alt"></i>
+                <span>SkillSwap<span class="logo-highlight">lite</span></span>
+            </div>
+            <div class="nav-menu">
+                <a href="#" onclick="showSection('home')" class="nav-link active">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="#" onclick="showSection('dashboard')" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="#" onclick="showSection('services')" class="nav-link">
+                    <i class="fas fa-list"></i> Services
+                </a>
+                <a href="#" onclick="showSection('categories')" class="nav-link">
+                    <i class="fas fa-tags"></i> Categories
+                </a>
+            </div>
+            <div class="nav-auth">
+                <button class="btn btn-outline" onclick="showSection('login')">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <button class="btn btn-primary" onclick="showSection('register')">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </button>
+            </div>
+            <div class="user-litefile hidden" id="userlitefile">
+                <div class="litefile-info">
+                    <div class="avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="litefile-details">
+                        <span id="userName" class="user-name"></span>
+                        <span id="userRole" class="user-role"></span>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <div class="hero-text animate-fade-in">
+                    <h1 class="hero-title">Exchange Skills, <span class="highlight">Grow Together</span></h1>
+                    <p class="hero-subtitle">Connect with talented litefessionals. Trade services without money. Build your network while getting things done.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary btn-lg" onclick="showSection('register')">
+                            <i class="fas fa-rocket"></i> Get Started Free
+                        </button>
+                        <button class="btn btn-outline btn-lg" onclick="showSection('services')">
+                            <i class="fas fa-eye"></i> Browse Services
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-image animate-slide-in">
+                    <div class="floating-cards">
+                        <div class="floating-card card-1">
+                            <i class="fas fa-paint-brush"></i>
+                            <span>Design</span>
+                        </div>
+                        <div class="floating-card card-2">
+                            <i class="fas fa-code"></i>
+                            <span>Development</span>
+                        </div>
+                        <div class="floating-card card-3">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Marketing</span>
+                        </div>
+                        <div class="floating-card card-4">
+                            <i class="fas fa-camera"></i>
+                            <span>Photography</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <h3 class="stat-number" id="servicesCount">0</h3>
+                    <p class="stat-label">Services Offered</p>
+                </div>
+                <div class="stat">
+                    <h3 class="stat-number" id="usersCount">0</h3>
+                    <p class="stat-label">Active Users</p>
+                </div>
+                <div class="stat">
+                    <h3 class="stat-number" id="exchangesCount">0</h3>
+                    <p class="stat-label">Successful Exchanges</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section id="categories" class="section hidden">
+            <div class="section-header">
+                <h2 class="section-title">Browse by <span class="highlight">Category</span></h2>
+                <p class="section-subtitle">Find exactly what you need from our diverse skill categories</p>
+            </div>
+            <div class="categories-grid" id="categoriesList">
+                <!-- Categories will be populated dynamically -->
+            </div>
+        </section>
+
+        <!-- Login Section -->
+        <section id="login" class="section hidden">
+            <div class="auth-container">
+                <div class="auth-card animate-fade-in">
+                    <div class="auth-header">
+                        <h2>Welcome Back</h2>
+                        <p>Sign in to continue your skill exchange journey</p>
+                    </div>
+                    <div class="auth-body">
+                        <div class="form-group">
+                            <label for="loginEmail">
+                                <i class="fas fa-envelope"></i> Email Address
+                            </label>
+                            <input type="email" id="loginEmail" placeholder="you@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">
+                                <i class="fas fa-lock"></i> Password
+                            </label>
+                            <input type="password" id="loginPassword" placeholder="Enter your password">
+                            <div class="password-toggle" onclick="togglePassword('loginPassword')">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="login()">
+                            <i class="fas fa-sign-in-alt"></i> Sign In
+                        </button>
+                        <div class="auth-footer">
+                            <p>Don't have an account? <a href="#" onclick="showSection('register')">Sign up here</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Register Section -->
+        <section id="register" class="section hidden">
+            <div class="auth-container">
+                <div class="auth-card animate-fade-in">
+                    <div class="auth-header">
+                        <h2>Join SkillSwap lite</h2>
+                        <p>Create your account to start exchanging skills</p>
+                    </div>
+                    <div class="auth-body">
+                        <div class="form-group">
+                            <label for="regName">
+                                <i class="fas fa-user"></i> Full Name
+                            </label>
+                            <input type="text" id="regName" placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="regEmail">
+                                <i class="fas fa-envelope"></i> Email Address
+                            </label>
+                            <input type="email" id="regEmail" placeholder="you@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="regPassword">
+                                <i class="fas fa-lock"></i> Password
+                            </label>
+                            <input type="password" id="regPassword" placeholder="Create a strong password">
+                            <div class="password-toggle" onclick="togglePassword('regPassword')">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="regRole">
+                                <i class="fas fa-user-tag"></i> I want to:
+                            </label>
+                            <div class="role-selector">
+                                <div class="role-option" onclick="selectRole('client')" id="clientOption">
+                                    <i class="fas fa-hands-helping"></i>
+                                    <span>Find Services</span>
+                                    <p>Browse and request services</p>
+                                </div>
+                                <div class="role-option" onclick="selectRole('litevider')" id="liteviderOption">
+                                    <i class="fas fa-tools"></i>
+                                    <span>Offer Services</span>
+                                    <p>Share your skills</p>
+                                </div>
+                            </div>
+                            <input type="hidden" id="regRole" value="client">
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="register()">
+                            <i class="fas fa-user-plus"></i> Create Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section hidden">
+            <div class="dashboard-header">
+                <h2 id="welcome" class="welcome-title"></h2>
+                <p class="welcome-subtitle">Manage your services, requests, and exchanges</p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Quick Stats -->
+                <div class="dashboard-card stats-card animate-fade-in">
+                    <h3><i class="fas fa-chart-bar"></i> Your Statistics</h3>
+                    <div class="user-stats">
+                        <div class="user-stat">
+                            <span class="stat-icon"><i class="fas fa-tasks"></i></span>
+                            <div>
+                                <h4 id="myServicesCount">0</h4>
+                                <p>My Services</p>
+                            </div>
+                        </div>
+                        <div class="user-stat">
+                            <span class="stat-icon"><i class="fas fa-handshake"></i></span>
+                            <div>
+                                <h4 id="myRequestsCount">0</h4>
+                                <p>Active Requests</p>
+                            </div>
+                        </div>
+                        <div class="user-stat">
+                            <span class="stat-icon"><i class="fas fa-check-circle"></i></span>
+                            <div>
+                                <h4 id="completedExchanges">0</h4>
+                                <p>Completed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- litevider Panel -->
+                <div id="liteviderPanel" class="dashboard-card create-service-card hidden animate-slide-in">
+                    <div class="card-header">
+                        <h3><i class="fas fa-plus-circle"></i> Create New Service</h3>
+                        <p>Share your skills with the community</p>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="serviceTitle" placeholder="Service Title (e.g., Web Design Consultation)">
+                    </div>
+                    <div class="form-group">
+                        <select id="serviceCategory" class="category-select">
+                            <option value="">Select Category</option>
+                            <!-- Categories populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="serviceDesc" rows="4" placeholder="Describe your service in detail..."></textarea>
+                    </div>
+                    <button class="btn btn-primary btn-block" onclick="createService()">
+                        <i class="fas fa-upload"></i> Publish Service
+                    </button>
+                </div>
+
+                <!-- Services List -->
+                <div class="dashboard-card services-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-list-alt"></i> Available Services</h3>
+                        <div class="filter-controls">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="filterCategory" placeholder="Filter by category or keyword">
+                            </div>
+                            <button class="btn btn-outline" onclick="renderServices()">
+                                <i class="fas fa-filter"></i> Apply
+                            </button>
+                        </div>
+                    </div>
+                    <div id="servicesList" class="services-list">
+                        <!-- Services populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Requests Panel -->
+                <div class="dashboard-card requests-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-inbox"></i> Requests</h3>
+                        <div class="request-tabs">
+                            <button class="tab-btn active" onclick="showRequests('incoming')">Incoming</button>
+                            <button class="tab-btn" onclick="showRequests('outgoing')">Outgoing</button>
+                        </div>
+                    </div>
+                    <div id="requestsList" class="requests-list">
+                        <!-- Requests populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="section hidden">
+            <div class="section-header">
+                <h2 class="section-title">Explore <span class="highlight">Services</span></h2>
+                <p class="section-subtitle">Browse through our community's offered skills and services</p>
+            </div>
+            <div class="services-explore">
+                <div class="services-controls">
+                    <div class="search-box-large">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchServices" placeholder="Search services...">
+                        <button class="btn btn-primary" onclick="searchServices()">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                    <select id="sortServices" class="sort-select" onchange="renderServices()">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="category">By Category</option>
+                    </select>
+                </div>
+                <div id="allServicesList" class="services-grid">
+                    <!-- All services populated here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>SkillSwap<span class="logo-highlight">lite</span></span>
+                    </div>
+                    <p class="footer-text">Connecting skills, building communities, creating value without currency.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" onclick="showSection('home')">Home</a></li>
+                        <li><a href="#" onclick="showSection('services')">Services</a></li>
+                        <li><a href="#" onclick="showSection('categories')">Categories</a></li>
+                        <li><a href="#" onclick="showSection('dashboard')">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Community Guidelines</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Stay Updated</h4>
+                    <p>Subscribe to our newsletter for updates</p>
+                    <div class="newsletter">
+                        <input type="email" placeholder="Your email">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 SkillSwap lite. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">
+        <div class="toast-content">
+            <i class="fas fa-check-circle"></i>
+            <span id="toastMessage">Operation successful!</span>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading" class="loading-overlay hidden">
+        <div class="loader">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
