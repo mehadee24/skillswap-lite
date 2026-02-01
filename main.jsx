@@ -15,7 +15,7 @@ const THEME = {
   blue: "#4fa3e3",
 };
 
-/* ─── Shared Styles ─── */
+
 const globalStyle = `
   @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -206,7 +206,7 @@ const globalStyle = `
   .card::-webkit-scrollbar-thumb { background:${THEME.cardBorder}; border-radius:2px; }
 `;
 
-/* ─── App ─── */
+
 export default function App() {
   const [page, setPage] = useState("auth"); // auth | role | profile
   const [tab, setTab] = useState("login"); // login | register
@@ -283,10 +283,10 @@ export default function App() {
     <>
       <style>{globalStyle}</style>
 
-      {/* Toast */}
+      {}
       <div className={`toast ${toast ? "show" : ""}`}>{toast}</div>
 
-      {/* Nav */}
+      {}
       <nav className="nav">
         <div className="nav-logo">Skill<span>Swap</span> <span style={{ color: THEME.textMuted, fontWeight: 400, fontSize: ".75rem" }}>Lite</span></div>
         <div className="nav-steps">
