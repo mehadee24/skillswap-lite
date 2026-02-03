@@ -6,33 +6,33 @@ SkillSwap Lite is a full-stack web application that allows users to offer and re
 This project is developed as part of a university coursework to demonstrate practical implementation of frontend, backend, database integration, and basic security concepts.
 
 Features
-# User registration and authentication
-#	User profile management
-#	Service listing creation and management
-#	Browse and search services
-#	Service booking/request system
-#	Secure access to protected resources
+1.User registration and authentication
+2.User profile management
+3.Service listing creation and management
+4.Browse and search services
+5.Service booking/request system
+6.Secure access to protected resources
 
 System Overview
 The system follows a three-tier architecture:
-#	Frontend (User Interface)
-#	Backend (Application Logic and APIs)
-#	Database (Data Storage)
-The platform is designed to be modular and scalable for future enhancements.
+1.Frontend (User Interface)
+2.Backend (Application Logic and APIs)
+3.Database (Data Storage)
+4.The platform is designed to be modular and scalable for future enhancements.
 
 Future Enhancements
-#	Online payment integration
-#	Real-time chat system
-#	Microservices-based architecture
-#	Admin dashboard
-#	Notification system
+1.Online payment integration
+2.Real-time chat system
+3.Microservices-based architecture
+4.Admin dashboard
+5.Notification system
 
 Project Purpose
 The purpose of this project is to:
-#	Understand full-stack web application architecture
-#	Implement secure user authentication
-#	Work with databases and APIs
-#	Design scalable and maintainable systems
+1.Understand full-stack web application architecture
+2.Implement secure user authentication
+3.Work with databases and APIs
+4.Design scalable and maintainable systems
 
 License
 This project is intended for educational purposes.
