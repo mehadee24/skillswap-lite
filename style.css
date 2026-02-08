@@ -1209,3 +1209,12 @@ button, .btn, .tab-btn, .role-option {
     font-size: 1.25rem;
     opacity: 0.95;
 }
+/* Tiny UI polish: button hover smoothness */
+
+.btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
