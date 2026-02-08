@@ -70,6 +70,13 @@ body {
     animation: slideIn 0.6s ease-out;
 }
 
+#grow {
+    /* color: rgba(0, 0, 0, 0.842); */
+    color: #181818;
+    font-size: 3.3vh;
+}
+
+
 /* Typography */
 h1, h2, h3, h4 {
     font-family: 'Montserrat', sans-serif;
@@ -79,7 +86,10 @@ h1, h2, h3, h4 {
 .highlight {
     color: var(--primary);
     position: relative;
+    /* text-shadow: 0 0px 12px rgba(0, 0, 0, 0.753); */
 }
+
+
 
 .highlight::after {
     content: '';
@@ -252,12 +262,14 @@ h1, h2, h3, h4 {
 .btn-outline {
     background: transparent;
     color: var(--primary);
-    border: 2px solid var(--primary);
+    border: 1px solid rgba(255, 255, 255, 0.514);
 }
 
 .btn-outline:hover {
-    background: var(--primary);
-    color: white;
+    background: white;
+    color: var(--primary);
+    /* border: 0px solid white; */
+    box-shadow: var(--shadow-lg);
 }
 
 .btn-block {
@@ -267,7 +279,9 @@ h1, h2, h3, h4 {
 .btn-lg {
     padding: 1rem 2rem;
     font-size: 1.1rem;
+    color: white;
 }
+
 
 /* Hero Section */
 .hero {

@@ -65,14 +65,14 @@
         <section id="home" class="hero">
             <div class="hero-content">
                 <div class="hero-text animate-fade-in">
-                    <h1 class="hero-title">Exchange Skills, <span class="highlight">Grow Together</span></h1>
+                    <h1 class="hero-title">Exchange Skills, <br> <span id="grow" class="highlight">Lets Grow Together.</span></h1>
                     <p class="hero-subtitle">Connect with talented litefessionals. Trade services without money. Build your network while getting things done.</p>
                     <div class="hero-buttons">
                         <button class="btn btn-primary btn-lg" onclick="showSection('register')">
                             <i class="fas fa-rocket"></i> Get Started Free
                         </button>
                         <button class="btn btn-outline btn-lg" onclick="showSection('services')">
-                            <i class="fas fa-eye"></i> Browse Services
+                            <i id="brwser" class="fas fa-eye"></i> Browse Services
                         </button>
                     </div>
                 </div>
@@ -312,27 +312,27 @@
         <!-- Services Section -->
         <section id="services" class="section hidden">
             <div class="section-header">
-                <h2 class="section-title">Explore <span class="highlight">Services</span></h2>
-                <p class="section-subtitle">Browse through our community's offered skills and services</p>
+            <h2 class="section-title">Explore <span class="highlight">Services</span></h2>
+            <p class="section-subtitle">Browse through our community's offered skills and services</p>
             </div>
             <div class="services-explore">
-                <div class="services-controls">
-                    <div class="search-box-large">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="searchServices" placeholder="Search services...">
-                        <button class="btn btn-primary" onclick="searchServices()">
-                            <i class="fas fa-search"></i> Search
-                        </button>
-                    </div>
-                    <select id="sortServices" class="sort-select" onchange="renderServices()">
-                        <option value="newest">Newest First</option>
-                        <option value="oldest">Oldest First</option>
-                        <option value="category">By Category</option>
-                    </select>
+            <div class="services-controls">
+                <div class="search-box-large">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchServices" placeholder="Search services...">
+                <button class="btn btn-primary" onclick="searchServices()">
+                    <i class="fas fa-search"></i> Search
+                </button>
                 </div>
-                <div id="allServicesList" class="services-grid">
-                    <!-- All services populated here -->
-                </div>
+                <select id="sortServices" class="sort-select" onchange="renderServices()">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="category">By Category</option>
+                </select>
+            </div>
+            <div id="allServicesList" class="services-grid">
+                <!-- All services populated here -->
+            </div>
             </div>
         </section>
     </main>
