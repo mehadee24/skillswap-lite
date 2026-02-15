@@ -32,10 +32,10 @@
                 </a>
             </div>
             <div class="nav-auth">
-                <button class="btn btn-outline" onclick="showSection('login')">
+               <button type="button" class="btn btn-outline" onclick="showSection('login')">
                     <i class="fas fa-sign-in-alt"></i> Login
                 </button>
-                <button class="btn btn-primary" onclick="showSection('register')">
+                <button type="button" class="btn btn-primary" onclick="showSection('register')">
                     <i class="fas fa-user-plus"></i> Sign Up
                 </button>
             </div>
@@ -49,11 +49,11 @@
                         <span id="userRole" class="user-role"></span>
                     </div>
                 </div>
-                <button class="btn-logout" onclick="logout()">
+                <button type="button" class="btn-logout" onclick="logout()">
                     <i class="fas fa-sign-out-alt"></i>
                 </button>
             </div>
-            <button class="menu-toggle" id="menuToggle">
+           <button type="button" class="menu-toggle" id="menuToggle">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
@@ -65,13 +65,13 @@
         <section id="home" class="hero">
             <div class="hero-content">
                 <div class="hero-text animate-fade-in">
-                    <h1 class="hero-title">Exchange Skills, <br> <span id="grow" class="highlight">Lets Grow Together.</span></h1>
-                    <p class="hero-subtitle">Connect with talented litefessionals. Trade services without money. Build your network while getting things done.</p>
+                    <h1 class="hero-title">Exchange Skills, <br> <span id="grow" class="highlight">Let's Grow Together.</span></h1>
+                    <p class="hero-subtitle">Connect with talented professionals. Trade services without money. Build your network while getting things done.</p>
                     <div class="hero-buttons">
-                        <button class="btn btn-primary btn-lg" onclick="showSection('register')">
+                        <button type="button" class="btn btn-primary btn-lg" onclick="showSection('register')">
                             <i class="fas fa-rocket"></i> Get Started Free
                         </button>
-                        <button class="btn btn-outline btn-lg" onclick="showSection('services')">
+                        <button type="button" class="btn btn-outline btn-lg" onclick="showSection('services')">
                             <i id="brwser" class="fas fa-eye"></i> Browse Services
                         </button>
                     </div>
@@ -148,7 +148,7 @@
                                 <i class="fas fa-eye"></i>
                             </div>
                         </div>
-                        <button class="btn btn-primary btn-block" onclick="login()">
+                        <button type="button" class="btn btn-primary btn-block" onclick="login()">
                             <i class="fas fa-sign-in-alt"></i> Sign In
                         </button>
                         <div class="auth-footer">
@@ -207,7 +207,7 @@
                             </div>
                             <input type="hidden" id="regRole" value="client">
                         </div>
-                        <button class="btn btn-primary btn-block" onclick="register()">
+                        <button type="button" class="btn btn-primary btn-block" onclick="register()">
                             <i class="fas fa-user-plus"></i> Create Account
                         </button>
                     </div>
@@ -269,7 +269,7 @@
                     <div class="form-group">
                         <textarea id="serviceDesc" rows="4" placeholder="Describe your service in detail..."></textarea>
                     </div>
-                    <button class="btn btn-primary btn-block" onclick="createService()">
+                    <button type="button" class="btn btn-primary btn-block" onclick="createService()">
                         <i class="fas fa-upload"></i> Publish Service
                     </button>
                 </div>
@@ -283,7 +283,7 @@
                                 <i class="fas fa-search"></i>
                                 <input type="text" id="filterCategory" placeholder="Filter by category or keyword">
                             </div>
-                            <button class="btn btn-outline" onclick="renderServices()">
+                            <button type="button" class="btn btn-outline" onclick="renderServices()">
                                 <i class="fas fa-filter"></i> Apply
                             </button>
                         </div>
@@ -298,8 +298,8 @@
                     <div class="card-header">
                         <h3><i class="fas fa-inbox"></i> Requests</h3>
                         <div class="request-tabs">
-                            <button class="tab-btn active" onclick="showRequests('incoming')">Incoming</button>
-                            <button class="tab-btn" onclick="showRequests('outgoing')">Outgoing</button>
+                            <button type="button" class="tab-btn active" onclick="showRequests('incoming')">Incoming</button>
+                            <button type="button" class="tab-btn" onclick="showRequests('outgoing')">Outgoing</button>
                         </div>
                     </div>
                     <div id="requestsList" class="requests-list">
@@ -320,7 +320,7 @@
                 <div class="search-box-large">
                 <i class="fas fa-search"></i>
                 <input type="text" id="searchServices" placeholder="Search services...">
-                <button class="btn btn-primary" onclick="searchServices()">
+                <button type="button" class="btn btn-primary" onclick="searchServices()">
                     <i class="fas fa-search"></i> Search
                 </button>
                 </div>
@@ -377,7 +377,7 @@
                     <p>Subscribe to our newsletter for updates</p>
                     <div class="newsletter">
                         <input type="email" placeholder="Your email">
-                        <button class="btn btn-primary">
+                        <button type="button" class="btn btn-primary">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
