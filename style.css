@@ -1218,3 +1218,73 @@ button, .btn, .tab-btn, .role-option {
 .btn:hover {
     transform: translateY(-1px);
 }
+/* Premium Hover Effects */
+.premium-hover-card {
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.premium-hover-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Shine Sweep Effect */
+.premium-shine {
+    position: relative;
+    overflow: hidden;
+}
+
+.premium-shine::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 40%;
+    height: 200%;
+    background: linear-gradient(
+        120deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.5) 50%,
+        rgba(255,255,255,0) 100%
+    );
+    transform: rotate(25deg);
+    transition: all 0.7s ease;
+}
+
+.premium-shine:hover::after {
+    left: 130%;
+}
+
+/* Notification Badge */
+.notify-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.notify-badge-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    background: #ef4444;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+}
+
+@keyframes notifyPulse {
+    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.notify-pulse {
+    animation: notifyPulse 1.5s infinite;
+}
