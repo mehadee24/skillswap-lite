@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSwap Lite - Find IT Service Providers</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-code"></i>
+                <span>SkillSwap Lite</span>
+            </div>
+            
+            <div class="nav-controls">
+                <!-- Language Selector -->
+                <select class="language-select" id="languageSelect">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                </select>
+
+                <!-- Dark Mode Toggle -->
+                <button class="dark-mode-toggle" id="darkModeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+
+                <!-- Join Button -->
+                <button class="join-btn" id="joinBtn">Join</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1 class="hero-title">Find the Perfect IT Service Provider</h1>
+            <p class="hero-subtitle">Connect with top freelancers for your next project</p>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" 
+                           id="searchInput" 
+                           class="search-input" 
+                           placeholder="Search for services..." 
+                           autocomplete="off">
+                </div>
+                
+                <!-- Autocomplete Suggestions -->
+                <div class="suggestions-container" id="suggestions"></div>
+            </div>
+
+            <!-- Keyword Suggestions -->
+            <div class="keyword-suggestions">
+                <span class="keyword-label">Popular:</span>
+                <button class="keyword-btn" data-keyword="Web Developer">Web Developer</button>
+                <button class="keyword-btn" data-keyword="App Developer">App Developer</button>
+                <button class="keyword-btn" data-keyword="Machine Learning">Machine Learning</button>
+                <button class="keyword-btn" data-keyword="AI Expert">AI Expert</button>
+                <button class="keyword-btn" data-keyword="Cyber Security">Cyber Security</button>
+                <button class="keyword-btn" data-keyword="Game Developer">Game Developer</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Service Providers Section -->
+    <section class="providers-section">
+        <div class="container">
+            <h2 class="section-title">Top Service Providers</h2>
+            <div class="providers-grid" id="providersGrid">
+                <!-- Mehadee Card -->
+                <div class="provider-card">
+                    <div class="provider-header">
+                        <div class="provider-avatar">M</div>
+                        <div class="provider-info">
+                            <h3 class="provider-name">Mehadee</h3>
+                            <div class="provider-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(4.9)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="provider-skills">
+                        <span class="skill-tag">Backend Development</span>
+                        <span class="skill-tag">Frontend Development</span>
+                        <span class="skill-tag">Machine Learning</span>
+                        <span class="skill-tag">Artificial Intelligence</span>
+                        <span class="skill-tag">React</span>
+                    </div>
+                    <p class="provider-description">
+                        A versatile developer capable of building full-stack systems, AI solutions, and modern web applications.
+                    </p>
+                </div>
+
+                <!-- Rakib Card -->
+                <div class="provider-card">
+                    <div class="provider-header">
+                        <div class="provider-avatar">R</div>
+                        <div class="provider-info">
+                            <h3 class="provider-name">Rakib</h3>
+                            <div class="provider-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>(4.8)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="provider-skills">
+                        <span class="skill-tag">Game Development</span>
+                        <span class="skill-tag">Unreal Engine</span>
+                        <span class="skill-tag">3D Modeling</span>
+                        <span class="skill-tag">Game Physics</span>
+                        <span class="skill-tag">Collision Systems</span>
+                    </div>
+                    <p class="provider-description">
+                        Experienced game developer specializing in immersive gameplay systems and advanced game engines.
+                    </p>
+                </div>
+
+                <!-- Alamin Card -->
+                <div class="provider-card">
+                    <div class="provider-header">
+                        <div class="provider-avatar">A</div>
+                        <div class="provider-info">
+                            <h3 class="provider-name">Alamin</h3>
+                            <div class="provider-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(5.0)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="provider-skills">
+                        <span class="skill-tag">UI Design</span>
+                        <span class="skill-tag">Frontend Development</span>
+                        <span class="skill-tag">Android Development</span>
+                        <span class="skill-tag">iOS Development</span>
+                        <span class="skill-tag">Web Design</span>
+                    </div>
+                    <p class="provider-description">
+                        Creative UI designer and frontend developer focused on modern interfaces and smooth user experience.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trusted Partners Section -->
+    <section class="partners-section">
+        <div class="container">
+            <h2 class="section-title">Trusted Partners</h2>
+            <div class="partners-grid">
+                <div class="partner-logo"><i class="fab fa-netflix"></i> Netflix</div>
+                <div class="partner-logo"><i class="fab fa-amazon"></i> Amazon</div>
+                <div class="partner-logo"><i class="fab fa-google"></i> Google</div>
+                <div class="partner-logo"><i class="fab fa-meta"></i> Meta</div>
+                <div class="partner-logo"><i class="fab fa-tesla"></i> Tesla</div>
+                <div class="partner-logo"><i class="fab fa-paypal"></i> PayPal</div>
+                <div class="partner-logo"><i class="fab fa-cc-paypal"></i> Payoneer</div>
+                <div class="partner-logo"><i class="fas fa-brain"></i> BrainStation23</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Modal Popup -->
+    <div class="modal-overlay" id="joinModal">
+        <div class="modal-container">
+            <button class="modal-close" id="closeModal">&times;</button>
+            
+            <div class="modal-header">
+                <h2>Join SkillSwap Lite</h2>
+                <p>Choose how you want to continue</p>
+            </div>
+
+            <div class="modal-body">
+                <!-- Google Sign In Button -->
+                <button class="google-btn" id="googleSignIn">
+                    <i class="fab fa-google"></i>
+                    Continue with Google
+                </button>
+
+                <div class="divider">
+                    <span>or</span>
+                </div>
+
+                <!-- Email Sign Up Form -->
+                <form id="signupForm" class="signup-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userType">I want to</label>
+                        <select id="userType" name="userType" required>
+                            <option value="client">Hire Service Providers</option>
+                            <option value="provider">Offer My Services</option>
+                        </select>
+                    </div>
+
+                    <!-- Provider specific fields (hidden by default) -->
+                    <div id="providerFields" class="provider-fields hidden">
+                        <div class="form-group">
+                            <label for="skills">Skills (comma separated)</label>
+                            <input type="text" id="skills" name="skills" placeholder="e.g., Web Development, UI Design">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Professional Description</label>
+                            <textarea id="description" name="description" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="signup-submit">Sign Up with Email</button>
+                </form>
+
+                <p class="login-link">
+                    Already have an account? <a href="#" id="showLogin">Log in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Form (Hidden by default) -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-container">
+            <button class="modal-close" id="closeLoginModal">&times;</button>
+            
+            <div class="modal-header">
+                <h2>Log In to SkillSwap Lite</h2>
+            </div>
+
+            <div class="modal-body">
+                <button class="google-btn" id="googleSignInLogin">
+                    <i class="fab fa-google"></i>
+                    Continue with Google
+                </button>
+
+                <div class="divider">
+                    <span>or</span>
+                </div>
+
+                <form id="loginForm" class="signup-form">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" name="password" required>
+                    </div>
+
+                    <button type="submit" class="signup-submit">Log In</button>
+                </form>
+
+                <p class="login-link">
+                    Don't have an account? <a href="#" id="showSignup">Sign up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/darkmode.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/joinPopup.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
