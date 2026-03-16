@@ -5,6 +5,9 @@
 
 class SearchHandler {
     constructor() {
+        //Render backend URL
+        this.API_BASE_URL = "https://skillswap-lite-1.onrender.com/api";
+        
         this.searchInput = document.getElementById('searchInput');
         this.suggestionsContainer = document.getElementById('suggestions');
         this.keywordBtns = document.querySelectorAll('.keyword-btn');
@@ -55,7 +58,8 @@ class SearchHandler {
     
     async fetchSuggestions(query) {
         try {
-            const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+            // ✅ UPDATED: Use API_BASE_URL instead of relative path
+            const response = await fetch(`${this.API_BASE_URL}/search?q=${encodeURIComponent(query)}`);
             const data = await response.json();
             
             if (data.success && data.suggestions.length > 0) {
