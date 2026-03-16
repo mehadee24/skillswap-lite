@@ -1,18 +1,96 @@
 /**
- * Search Functionality with Autocomplete
- * Handles search input, suggestions from backend, and keyword clicks
+ * Search Functionality with Autocomplete and Results
+ * Handles search input, suggestions from backend, and displays results
  */
 
 class SearchHandler {
     constructor() {
-        //Render backend URL
+        // API Base URL - your Render backend
         this.API_BASE_URL = "https://skillswap-lite-1.onrender.com/api";
         
         this.searchInput = document.getElementById('searchInput');
         this.suggestionsContainer = document.getElementById('suggestions');
         this.keywordBtns = document.querySelectorAll('.keyword-btn');
+        this.searchResultsContainer = document.createElement('div');
+        this.searchResultsContainer.className = 'search-results-container';
+        this.searchResultsContainer.style.display = 'none';
+        
+        // Insert results container after search
+        const searchContainer = document.querySelector('.search-container');
+        if (searchContainer) {
+            searchContainer.appendChild(this.searchResultsContainer);
+        }
+        
         this.selectedIndex = -1;
         this.suggestions = [];
+        
+        // Mock data for IT professionals
+        this.itProfessionals = [
+            {
+                name: "Mehadee",
+                skills: ["Backend Development", "Machine Learning", "AI", "React", "Node.js"],
+                rating: 4.9,
+                projects: 45,
+                avatar: "M",
+                title: "Full Stack Developer & AI Specialist"
+            },
+            {
+                name: "Rakib",
+                skills: ["Game Development", "Unreal Engine", "3D Modeling", "C++", "Physics"],
+                rating: 4.8,
+                projects: 32,
+                avatar: "R",
+                title: "Game Developer & Graphics Engineer"
+            },
+            {
+                name: "Alamin",
+                skills: ["UI/UX Design", "Frontend", "Mobile Apps", "React Native", "Figma"],
+                rating: 5.0,
+                projects: 51,
+                avatar: "A",
+                title: "UI/UX Designer & Frontend Developer"
+            },
+            {
+                name: "Sarah Khan",
+                skills: ["Cyber Security", "Ethical Hacking", "Network Security", "Penetration Testing"],
+                rating: 4.7,
+                projects: 28,
+                avatar: "S",
+                title: "Cyber Security Expert"
+            },
+            {
+                name: "Tanvir Ahmed",
+                skills: ["Cloud Computing", "AWS", "DevOps", "Docker", "Kubernetes"],
+                rating: 4.9,
+                projects: 37,
+                avatar: "T",
+                title: "Cloud Architect & DevOps Engineer"
+            },
+            {
+                name: "Nusrat Jahan",
+                skills: ["Data Science", "Python", "TensorFlow", "Data Visualization", "SQL"],
+                rating: 4.8,
+                projects: 42,
+                avatar: "N",
+                title: "Data Scientist & ML Engineer"
+            },
+            {
+                name: "Kamal Hossain",
+                skills: ["Mobile Development", "Flutter", "iOS", "Android", "Firebase"],
+                rating: 4.6,
+                projects: 39,
+                avatar: "K",
+                title: "Cross-Platform Mobile Developer"
+            },
+            {
+                name: "Farhana Islam",
+                skills: ["Frontend Development", "React", "Vue.js", "Angular", "UI Design"],
+                rating: 4.8,
+                projects: 44,
+                avatar: "F",
+                title: "Frontend Specialist"
+            }
+        ];
         
         this.init();
     }
@@ -38,8 +116,11 @@ class SearchHandler {
         
         // Close suggestions when clicking outside
         document.addEventListener('click', (e) => {
-            if (!this.searchInput.contains(e.target) && !this.suggestionsContainer.contains(e.target)) {
+            if (!this.searchInput.contains(e.target) && 
+                !this.suggestionsContainer.contains(e.target) &&
+                !this.searchResultsContainer.contains(e.target)) {
                 this.hideSuggestions();
+                this.hideSearchResults();
             }
         });
     }
@@ -49,29 +130,69 @@ class SearchHandler {
         
         if (query.length < 1) {
             this.hideSuggestions();
+            this.hideSearchResults();
             return;
         }
         
-        // Fetch suggestions from backend
+        // Show suggestions while typing
         await this.fetchSuggestions(query);
+        
+        // If query is longer than 2 chars, show results
+        if (query.length >= 2) {
+            this.performSearch(query);
+        }
     }
     
     async fetchSuggestions(query) {
         try {
-            // ✅ UPDATED: Use API_BASE_URL instead of relative path
+            // First try backend API
             const response = await fetch(`${this.API_BASE_URL}/search?q=${encodeURIComponent(query)}`);
             const data = await response.json();
             
-            if (data.success && data.suggestions.length > 0) {
+            if (data.success && data.suggestions && data.suggestions.length > 0) {
                 this.suggestions = data.suggestions;
                 this.showSuggestions(data.suggestions);
             } else {
-                this.hideSuggestions();
+                // Fallback to local suggestions based on query
+                const localSuggestions = this.getLocalSuggestions(query);
+                if (localSuggestions.length > 0) {
+                    this.suggestions = localSuggestions;
+                    this.showSuggestions(localSuggestions);
+                } else {
+                    this.hideSuggestions();
+                }
             }
         } catch (error) {
             console.error('Error fetching suggestions:', error);
-            this.hideSuggestions();
+            // Use local suggestions as fallback
+            const localSuggestions = this.getLocalSuggestions(query);
+            if (localSuggestions.length > 0) {
+                this.suggestions = localSuggestions;
+                this.showSuggestions(localSuggestions);
+            } else {
+                this.hideSuggestions();
+            }
         }
+    }
+    
+    getLocalSuggestions(query) {
+        const lowercaseQuery = query.toLowerCase();
+        // Get unique skills from all professionals
+        const allSkills = [...new Set(this.itProfessionals.flatMap(p => p.skills))];
+        
+        // Filter skills that match the query
+        const matchingSkills = allSkills.filter(skill => 
+            skill.toLowerCase().includes(lowercaseQuery)
+        ).slice(0, 5);
+        
+        // Get names that match the query
+        const matchingNames = this.itProfessionals
+            .filter(p => p.name.toLowerCase().includes(lowercaseQuery))
+            .map(p => p.name)
+            .slice(0, 3);
+        
+        // Combine and remove duplicates
+        return [...new Set([...matchingSkills, ...matchingNames])];
     }
     
     showSuggestions(suggestions) {
@@ -166,16 +287,74 @@ class SearchHandler {
     }
     
     performSearch(query) {
-        console.log('Performing search for:', query);
-        // You can implement actual search functionality here
-        // For example, redirect to search results page
-        // window.location.href = `/search?q=${encodeURIComponent(query)}`;
+        console.log('Searching for:', query);
+        this.hideSuggestions();
+        
+        // Filter professionals based on query
+        const lowercaseQuery = query.toLowerCase();
+        const results = this.itProfessionals.filter(pro => 
+            pro.name.toLowerCase().includes(lowercaseQuery) ||
+            pro.skills.some(skill => skill.toLowerCase().includes(lowercaseQuery)) ||
+            pro.title.toLowerCase().includes(lowercaseQuery)
+        );
+        
+        this.displaySearchResults(results, query);
+    }
+    
+    displaySearchResults(results, query) {
+        this.searchResultsContainer.innerHTML = '';
+        
+        if (results.length === 0) {
+            this.searchResultsContainer.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-search"></i>
+                    <h3>No professionals found for "${query}"</h3>
+                    <p>Try different keywords or browse all professionals below</p>
+                </div>
+            `;
+        } else {
+            const resultsHTML = `
+                <div class="search-results-header">
+                    <h3>Found ${results.length} professional${results.length > 1 ? 's' : ''} for "${query}"</h3>
+                </div>
+                <div class="search-results-grid">
+                    ${results.map(pro => `
+                        <div class="search-result-card">
+                            <div class="result-avatar">${pro.avatar}</div>
+                            <div class="result-info">
+                                <h4>${pro.name}</h4>
+                                <p class="result-title">${pro.title}</p>
+                                <div class="result-skills">
+                                    ${pro.skills.slice(0, 3).map(skill => `<span class="result-skill">${skill}</span>`).join('')}
+                                    ${pro.skills.length > 3 ? `<span class="result-skill">+${pro.skills.length - 3}</span>` : ''}
+                                </div>
+                                <div class="result-meta">
+                                    <span class="result-rating"><i class="fas fa-star"></i> ${pro.rating}</span>
+                                    <span class="result-projects"><i class="fas fa-briefcase"></i> ${pro.projects} projects</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            this.searchResultsContainer.innerHTML = resultsHTML;
+        }
+        
+        this.searchResultsContainer.style.display = 'block';
+        
+        // Scroll to results
+        this.searchResultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    
+    hideSearchResults() {
+        this.searchResultsContainer.style.display = 'none';
     }
     
     handleBlur(e) {
         // Delay hiding to allow click on suggestions
         setTimeout(() => {
-            if (!this.suggestionsContainer.contains(document.activeElement)) {
+            if (!this.suggestionsContainer.contains(document.activeElement) &&
+                !this.searchResultsContainer.contains(document.activeElement)) {
                 this.hideSuggestions();
             }
         }, 200);
