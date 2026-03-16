@@ -43,20 +43,28 @@ class AuthModal {
             });
         }
         
-        // Close modals
-        if (this.closeModal) {
-            this.closeModal.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.closeModal(this.joinModal);
-            });
+        // Close modals - FIXED VERSION
+if (this.closeModal) {
+    this.closeModal.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Close join modal button clicked');
+        if (this.joinModal) {
+            this.joinModal.classList.remove('active');
+            document.body.style.overflow = '';
         }
-        
-        if (this.closeLoginModal) {
-            this.closeLoginModal.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.closeModal(this.loginModal);
-            });
+    });
+}
+
+if (this.closeLoginModal) {
+    this.closeLoginModal.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Close login modal button clicked');
+        if (this.loginModal) {
+            this.loginModal.classList.remove('active');
+            document.body.style.overflow = '';
         }
+    });
+}
         
         // FIXED: Switch between signup and login
         if (this.showLogin) {
@@ -130,7 +138,7 @@ class AuthModal {
         }
     }
     
-    closeModal(modal) {
+        closeModal(modal) {
         if (modal) {
             console.log('Closing modal:', modal.id);
             modal.classList.remove('active');
