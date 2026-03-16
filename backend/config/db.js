@@ -7,13 +7,21 @@ const mongoose = require('mongoose');
  */
 const connectDB = async () => {
     try {
-        // MongoDB connection string - update this with your actual MongoDB URL
-        const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/skillswap', {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        // MongoDB connection string - using my Atlas URL
+        const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/skillswap');
         
         console.log(`MongoDB Connected: ${conn.connection.host}`);
+        console.log(`Database Name: ${conn.connection.name}`);
+        
+        // Handle connection events
+        mongoose.connection.on('error', (err) => {
+            console.error('MongoDB connection error:', err);
+        });
+
+        mongoose.connection.on('disconnected', () => {
+            console.log('MongoDB disconnected');
+        });
+
     } catch (error) {
         console.error('Database connection error:', error);
         process.exit(1); // Exit process with failure
