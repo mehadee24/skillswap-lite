@@ -1275,3 +1275,65 @@ body {
     opacity: 0.8;
     transform: scale(1.1);
 }
+
+
+/* Hero Section with Background Image */
+.hero {
+    position: relative;
+    background: none; /* Remove the gradient background */
+    padding: 100px 20px;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Background Image - Using your bg.jpeg */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../assets/images/bg.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.15; /* Very subtle - adjust between 0.1-0.3 for best results */
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Dark mode adjustment - even more subtle */
+[data-theme="dark"] .hero::before {
+    opacity: 0.1;
+}
+
+/* hero container stays above background */
+.hero-container {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* a subtle overlay to improve text readability */
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(0,0,0,0.02) 0%,
+        rgba(0,0,0,0) 100%
+    );
+    z-index: 0;
+    pointer-events: none;
+}
