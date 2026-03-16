@@ -1301,7 +1301,7 @@ body {
     ), url('../assets/images/bg.jpeg');
     background-size: cover;
     background-position: center;
-    opacity: 0.3;
+    opacity: 0.25;
     z-index: 0;
     pointer-events: none;
 }
