@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - SkillSwap Lite</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-code"></i>
+                <span>SkillSwap Lite</span>
+            </div>
+            
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="why-choose-us.html">Why Choose Us</a>
+                <a href="contact.html" class="active">Contact</a>
+            </div>
+            
+            <div class="nav-controls">
+                <select class="language-select" id="languageSelect">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                </select>
+
+                <button class="dark-mode-toggle" id="darkModeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+
+                <button class="join-btn" id="joinBtn">Join</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>Get in Touch</h1>
+        <p>We'd love to hear from you. Reach out with any questions or feedback!</p>
+    </section>
+
+    <!-- Contact Content -->
+    <section class="contact-page">
+        <div class="contact-container">
+            <div class="contact-info-section">
+                <h2>Contact Information</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 30px;">
+                    Have questions? We're here to help! Reach out to us through any of the following channels.
+                </p>
+                
+                <div class="contact-details">
+                    <div class="contact-item slide-up">
+                        <i class="fas fa-envelope"></i>
+                        <div class="contact-text">
+                            <h4>Email</h4>
+                            <p>mehadee2305341214@diu.edu.bd</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item slide-up" style="animation-delay: 0.1s">
+                        <i class="fas fa-phone-alt"></i>
+                        <div class="contact-text">
+                            <h4>Phone</h4>
+                            <p>01303919978</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item slide-up" style="animation-delay: 0.2s">
+                        <i class="fab fa-discord"></i>
+                        <div class="contact-text">
+                            <h4>Discord</h4>
+                            <p>stevy7819</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item slide-up" style="animation-delay: 0.3s">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="contact-text">
+                            <h4>Office</h4>
+                            <p>Dhaka, Bangladesh</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="social-links" style="margin-top: 30px;">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            
+            <div class="contact-form-section">
+                <h2>Send us a Message</h2>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Subject" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <!-- Footer content will be added later -->
+    </footer>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="joinModal">
+        <!-- Same modal content as index.html -->
+    </div>
+
+    <div class="modal-overlay" id="loginModal">
+        <!-- Same modal content as index.html -->
+    </div>
+
+    <script src="js/darkmode.js"></script>
+    <script src="js/joinPopup.js"></script>
+    <script src="js/main.js"></script>
+    
+    <script>
+        // Contact form handler
+        document.getElementById('contactForm')?.addEventListener('
