@@ -5,14 +5,10 @@
 
 class AuthModal {
     constructor() {
-        // Add this line:
+        // API Base URL - MAKE SURE THIS IS CORRECT
         this.API_BASE_URL = "https://skillswap-lite-1.onrender.com/api";
         
-        this.joinModal = document.getElementById('joinModal');
-        // ... rest of your constructor code
-
-class AuthModal {
-    constructor() {
+        // Get DOM elements
         this.joinModal = document.getElementById('joinModal');
         this.loginModal = document.getElementById('loginModal');
         this.joinBtn = document.getElementById('joinBtn');
@@ -27,22 +23,39 @@ class AuthModal {
         this.googleSignIn = document.getElementById('googleSignIn');
         this.googleSignInLogin = document.getElementById('googleSignInLogin');
         
-        this.init();
+        // Initialize only if elements exist
+        if (this.joinBtn) {
+            this.init();
+        } else {
+            console.error('Join button not found in DOM');
+        }
     }
     
     init() {
+        console.log('AuthModal initialized'); // Debug log
+        
         // Open join modal
         if (this.joinBtn) {
-            this.joinBtn.addEventListener('click', () => this.openModal(this.joinModal));
+            this.joinBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('Join button clicked'); // Debug log
+                this.openModal(this.joinModal);
+            });
         }
         
         // Close modals
         if (this.closeModal) {
-            this.closeModal.addEventListener('click', () => this.closeModal(this.joinModal));
+            this.closeModal.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.closeModal(this.joinModal);
+            });
         }
         
         if (this.closeLoginModal) {
-            this.closeLoginModal.addEventListener('click', () => this.closeModal(this.loginModal));
+            this.closeLoginModal.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.closeModal(this.loginModal);
+            });
         }
         
         // Switch between signup and login
@@ -78,11 +91,17 @@ class AuthModal {
         
         // Handle Google sign in
         if (this.googleSignIn) {
-            this.googleSignIn.addEventListener('click', () => this.handleGoogleSignIn());
+            this.googleSignIn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleGoogleSignIn();
+            });
         }
         
         if (this.googleSignInLogin) {
-            this.googleSignInLogin.addEventListener('click', () => this.handleGoogleSignIn());
+            this.googleSignInLogin.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleGoogleSignIn();
+            });
         }
         
         // Close modals when clicking outside
@@ -94,10 +113,14 @@ class AuthModal {
                 this.closeModal(this.loginModal);
             }
         });
+
+        // Check if user is already logged in
+        this.checkLoggedInUser();
     }
     
     openModal(modal) {
         if (modal) {
+            console.log('Opening modal'); // Debug log
             modal.classList.add('active');
             document.body.style.overflow = 'hidden'; // Prevent scrolling
         }
@@ -105,6 +128,7 @@ class AuthModal {
     
     closeModal(modal) {
         if (modal) {
+            console.log('Closing modal'); // Debug log
             modal.classList.remove('active');
             document.body.style.overflow = ''; // Restore scrolling
         }
@@ -125,13 +149,17 @@ class AuthModal {
             if (this.userTypeSelect.value === 'provider') {
                 this.providerFields.classList.remove('hidden');
                 // Make provider fields required
-                document.getElementById('skills').required = true;
-                document.getElementById('description').required = true;
+                const skills = document.getElementById('skills');
+                const description = document.getElementById('description');
+                if (skills) skills.required = true;
+                if (description) description.required = true;
             } else {
                 this.providerFields.classList.add('hidden');
                 // Make provider fields not required
-                document.getElementById('skills').required = false;
-                document.getElementById('description').required = false;
+                const skills = document.getElementById('skills');
+                const description = document.getElementById('description');
+                if (skills) skills.required = false;
+                if (description) description.required = false;
             }
         }
     }
@@ -155,7 +183,7 @@ class AuthModal {
         }
         
         try {
-            const response = await fetch('/api/auth/signup', {
+            const response = await fetch(`${this.API_BASE_URL}/auth/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -196,7 +224,7 @@ class AuthModal {
         };
         
         try {
-            const response = await fetch('/api/auth/login', {
+            const response = await fetch(`${this.API_BASE_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -229,23 +257,25 @@ class AuthModal {
     }
     
     handleGoogleSignIn() {
+        console.log('Google sign in clicked'); // Debug log
         // Redirect to Google OAuth
-        window.location.href = '/api/auth/google';
+        window.location.href = `${this.API_BASE_URL}/auth/google`;
     }
     
     updateUIForLoggedInUser(user) {
         // Change join button to user menu
-        const joinBtn = document.getElementById('joinBtn');
-        if (joinBtn) {
-            joinBtn.textContent = user.name.split(' ')[0];
-            joinBtn.classList.add('logged-in');
+        if (this.joinBtn) {
+            this.joinBtn.textContent = user.name.split(' ')[0];
+            this.joinBtn.classList.add('logged-in');
             
-            // Add logout option
-            joinBtn.addEventListener('click', () => {
+            // Replace click handler for logout
+            this.joinBtn.removeEventListener('click', this.joinBtn.clickHandler);
+            this.joinBtn.clickHandler = () => {
                 if (confirm('Do you want to logout?')) {
                     this.logout();
                 }
-            });
+            };
+            this.joinBtn.addEventListener('click', this.joinBtn.clickHandler);
         }
     }
     
@@ -254,10 +284,13 @@ class AuthModal {
         localStorage.removeItem('user');
         
         // Reset join button
-        const joinBtn = document.getElementById('joinBtn');
-        if (joinBtn) {
-            joinBtn.textContent = 'Join';
-            joinBtn.classList.remove('logged-in');
+        if (this.joinBtn) {
+            this.joinBtn.textContent = 'Join';
+            this.joinBtn.classList.remove('logged-in');
+            
+            // Restore original click handler
+            this.joinBtn.removeEventListener('click', this.joinBtn.clickHandler);
+            this.joinBtn.addEventListener('click', () => this.openModal(this.joinModal));
         }
         
         this.showNotification('Logged out successfully', 'success');
@@ -291,13 +324,17 @@ class AuthModal {
         const user = localStorage.getItem('user');
         
         if (token && user) {
-            this.updateUIForLoggedInUser(JSON.parse(user));
+            try {
+                this.updateUIForLoggedInUser(JSON.parse(user));
+            } catch (e) {
+                console.error('Error parsing user data', e);
+            }
         }
     }
 }
 
 // Initialize auth modal when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    const authModal = new AuthModal();
-    authModal.checkLoggedInUser();
+    console.log('DOM loaded, initializing AuthModal'); // Debug log
+    window.authModal = new AuthModal(); // Make it global for debugging
 });
