@@ -1339,3 +1339,17 @@ body {
     z-index: 0;
     pointer-events: none;
 }
+
+/* new social buttons */
+.social-btn.linkedin {
+    background-color: #0077b5;
+}
+
+.social-btn.instagram {
+    background: linear-gradient(45deg, #f09433, #d62976, #962fbf, #4f5bd5);
+}
+
+.social-btn.linkedin:hover, .social-btn.instagram:hover {
+    opacity: 0.9;
+    transform: translateY(-3px);
+}
