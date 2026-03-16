@@ -23,16 +23,20 @@
             </div>
             
             <div class="nav-controls">
+                <!-- Language Selector -->
                 <select class="language-select" id="languageSelect">
                     <option value="en">English</option>
                     <option value="es">Español</option>
                     <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
                 </select>
 
+                <!-- Dark Mode Toggle -->
                 <button class="dark-mode-toggle" id="darkModeToggle">
                     <i class="fas fa-moon"></i>
                 </button>
 
+                <!-- Join Button -->
                 <button class="join-btn" id="joinBtn">Join</button>
             </div>
         </div>
@@ -91,6 +95,7 @@
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
                     <a href="#"><i class="fab fa-github"></i></a>
                 </div>
             </div>
@@ -116,24 +121,197 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Footer - COMPLETE VERSION -->
     <footer class="footer">
-        <!-- Footer content will be added later -->
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About SkillSwap</h3>
+                <p>Connect with top IT professionals for your next project. We provide a platform for freelancers and clients to work together seamlessly.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="why-choose-us.html"><i class="fas fa-chevron-right"></i> Why Choose Us</a></li>
+                    <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> mehadee2305341214@diu.edu.bd</p>
+                    <p><i class="fas fa-phone"></i> 01303919978</p>
+                    <p><i class="fab fa-discord"></i> stevy7819</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Dhaka, Bangladesh</p>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Subscribe to get updates on new professionals and features</p>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" placeholder="Your email" required>
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 SkillSwap Lite. All rights reserved. | Designed with <i class="fas fa-heart" style="color: #ff4757;"></i> for university project</p>
+        </div>
     </footer>
 
-    <!-- Modals -->
+    <!-- Join Modal -->
     <div class="modal-overlay" id="joinModal">
-        <!-- Same modal content as index.html -->
+        <div class="modal-container">
+            <button class="modal-close" id="closeModal">&times;</button>
+            
+            <div class="modal-header">
+                <h2>Join SkillSwap Lite</h2>
+                <p>Choose how you want to continue</p>
+            </div>
+
+            <div class="modal-body">
+                <!-- Google Sign In Button -->
+                <button class="google-btn" id="googleSignIn">
+                    <i class="fab fa-google"></i>
+                    Continue with Google
+                </button>
+
+                <div class="divider">
+                    <span>or</span>
+                </div>
+
+                <!-- Email Sign Up Form -->
+                <form id="signupForm" class="signup-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userType">I want to</label>
+                        <select id="userType" name="userType" required>
+                            <option value="client">Hire Service Providers</option>
+                            <option value="provider">Offer My Services</option>
+                        </select>
+                    </div>
+
+                    <!-- Provider specific fields (hidden by default) -->
+                    <div id="providerFields" class="provider-fields hidden">
+                        <div class="form-group">
+                            <label for="skills">Skills (comma separated)</label>
+                            <input type="text" id="skills" name="skills" placeholder="e.g., Web Development, UI Design">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Professional Description</label>
+                            <textarea id="description" name="description" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="signup-submit">Sign Up with Email</button>
+                </form>
+
+                <p class="login-link">
+                    Already have an account? <a href="#" id="showLogin">Log in</a>
+                </p>
+            </div>
+        </div>
     </div>
 
+    <!-- Login Modal -->
     <div class="modal-overlay" id="loginModal">
-        <!-- Same modal content as index.html -->
+        <div class="modal-container">
+            <button class="modal-close" id="closeLoginModal">&times;</button>
+            
+            <div class="modal-header">
+                <h2>Log In to SkillSwap Lite</h2>
+            </div>
+
+            <div class="modal-body">
+                <button class="google-btn" id="googleSignInLogin">
+                    <i class="fab fa-google"></i>
+                    Continue with Google
+                </button>
+
+                <div class="divider">
+                    <span>or</span>
+                </div>
+
+                <form id="loginForm" class="signup-form">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" name="password" required>
+                    </div>
+
+                    <button type="submit" class="signup-submit">Log In</button>
+                </form>
+
+                <p class="login-link">
+                    Don't have an account? <a href="#" id="showSignup">Sign up</a>
+                </p>
+            </div>
+        </div>
     </div>
 
+    <!-- Scripts -->
     <script src="js/darkmode.js"></script>
+    <script src="js/search.js"></script>
     <script src="js/joinPopup.js"></script>
     <script src="js/main.js"></script>
     
     <script>
         // Contact form handler
-        document.getElementById('contactForm')?.addEventListener('
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Show success message (you can replace with actual form submission)
+                    alert('Thank you for your message! We will get back to you soon.');
+                    contactForm.reset();
+                });
+            }
+
+            // Newsletter form handler
+            const newsletterForm = document.getElementById('newsletterForm');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Show success message
+                    alert('Thank you for subscribing to our newsletter!');
+                    newsletterForm.reset();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
