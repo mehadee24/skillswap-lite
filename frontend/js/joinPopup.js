@@ -5,7 +5,7 @@
 
 class AuthModal {
     constructor() {
-        // API Base URL - MAKE SURE THIS IS CORRECT
+        // API Base URL - your Render backend
         this.API_BASE_URL = "https://skillswap-lite-1.onrender.com/api";
         
         // Get DOM elements
@@ -32,44 +32,37 @@ class AuthModal {
     }
     
     init() {
-        console.log('AuthModal initialized'); // Debug log
+        console.log('AuthModal initialized');
         
         // Open join modal
         if (this.joinBtn) {
             this.joinBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                console.log('Join button clicked'); // Debug log
+                console.log('Join button clicked');
                 this.openModal(this.joinModal);
             });
         }
         
-       // Close modals - FIXED VERSION
-if (this.closeModal) {
-    this.closeModal.addEventListener('click', (e) => {
-        e.preventDefault();
-        console.log('Close button clicked'); // Debug
-        if (this.joinModal) {
-            this.joinModal.classList.remove('active');
-            document.body.style.overflow = '';
+        // Close modals
+        if (this.closeModal) {
+            this.closeModal.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.closeModal(this.joinModal);
+            });
         }
-    });
-}
-
-if (this.closeLoginModal) {
-    this.closeLoginModal.addEventListener('click', (e) => {
-        e.preventDefault();
-        console.log('Close login button clicked'); // Debug
-        if (this.loginModal) {
-            this.loginModal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    });
-}
         
-        // Switch between signup and login
+        if (this.closeLoginModal) {
+            this.closeLoginModal.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.closeModal(this.loginModal);
+            });
+        }
+        
+        // FIXED: Switch between signup and login
         if (this.showLogin) {
             this.showLogin.addEventListener('click', (e) => {
                 e.preventDefault();
+                console.log('Switch to login clicked');
                 this.switchToLogin();
             });
         }
@@ -77,6 +70,7 @@ if (this.closeLoginModal) {
         if (this.showSignup) {
             this.showSignup.addEventListener('click', (e) => {
                 e.preventDefault();
+                console.log('Switch to signup clicked');
                 this.switchToSignup();
             });
         }
@@ -86,6 +80,8 @@ if (this.closeLoginModal) {
             this.userTypeSelect.addEventListener('change', () => {
                 this.toggleProviderFields();
             });
+            // Initial check
+            this.toggleProviderFields();
         }
         
         // Handle form submissions
@@ -128,28 +124,38 @@ if (this.closeLoginModal) {
     
     openModal(modal) {
         if (modal) {
-            console.log('Opening modal'); // Debug log
+            console.log('Opening modal:', modal.id);
             modal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling
+            document.body.style.overflow = 'hidden';
         }
     }
     
     closeModal(modal) {
         if (modal) {
-            console.log('Closing modal'); // Debug log
+            console.log('Closing modal:', modal.id);
             modal.classList.remove('active');
-            document.body.style.overflow = ''; // Restore scrolling
+            document.body.style.overflow = '';
         }
     }
     
     switchToLogin() {
-        this.closeModal(this.joinModal);
-        this.openModal(this.loginModal);
+        console.log('Switching to login modal');
+        if (this.joinModal) {
+            this.joinModal.classList.remove('active');
+        }
+        if (this.loginModal) {
+            this.loginModal.classList.add('active');
+        }
     }
     
     switchToSignup() {
-        this.closeModal(this.loginModal);
-        this.openModal(this.joinModal);
+        console.log('Switching to signup modal');
+        if (this.loginModal) {
+            this.loginModal.classList.remove('active');
+        }
+        if (this.joinModal) {
+            this.joinModal.classList.add('active');
+        }
     }
     
     toggleProviderFields() {
@@ -265,8 +271,7 @@ if (this.closeLoginModal) {
     }
     
     handleGoogleSignIn() {
-        console.log('Google sign in clicked'); // Debug log
-        // Redirect to Google OAuth
+        console.log('Google sign in clicked');
         window.location.href = `${this.API_BASE_URL}/auth/google`;
     }
     
@@ -276,14 +281,22 @@ if (this.closeLoginModal) {
             this.joinBtn.textContent = user.name.split(' ')[0];
             this.joinBtn.classList.add('logged-in');
             
+            // Store original click handler reference
+            if (!this.originalClickHandler) {
+                this.originalClickHandler = this.joinBtn.clickHandler;
+            }
+            
             // Replace click handler for logout
-            this.joinBtn.removeEventListener('click', this.joinBtn.clickHandler);
-            this.joinBtn.clickHandler = () => {
+            const logoutHandler = () => {
                 if (confirm('Do you want to logout?')) {
                     this.logout();
                 }
             };
-            this.joinBtn.addEventListener('click', this.joinBtn.clickHandler);
+            
+            // Remove old listeners and add new one
+            this.joinBtn.replaceWith(this.joinBtn.cloneNode(true));
+            this.joinBtn = document.getElementById('joinBtn');
+            this.joinBtn.addEventListener('click', logoutHandler);
         }
     }
     
@@ -297,7 +310,8 @@ if (this.closeLoginModal) {
             this.joinBtn.classList.remove('logged-in');
             
             // Restore original click handler
-            this.joinBtn.removeEventListener('click', this.joinBtn.clickHandler);
+            this.joinBtn.replaceWith(this.joinBtn.cloneNode(true));
+            this.joinBtn = document.getElementById('joinBtn');
             this.joinBtn.addEventListener('click', () => this.openModal(this.joinModal));
         }
         
@@ -343,6 +357,6 @@ if (this.closeLoginModal) {
 
 // Initialize auth modal when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded, initializing AuthModal'); // Debug log
-    window.authModal = new AuthModal(); // Make it global for debugging
+    console.log('DOM loaded, initializing AuthModal');
+    window.authModal = new AuthModal();
 });
