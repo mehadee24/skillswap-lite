@@ -47,6 +47,14 @@ const translations = {
         
         // Partners Section
         trustedPartners: "Trusted Partners",
+        netflix: "Netflix",
+        amazon: "Amazon",
+        google: "Google",
+        meta: "Meta",
+        tesla: "Tesla",
+        paypal: "PayPal",
+        payoneer: "Payoneer",
+        brainstation: "BrainStation23",
         
         // Footer
         aboutSkillSwap: "About SkillSwap",
@@ -64,22 +72,22 @@ const translations = {
         whyChooseSub: "Discover what makes us the preferred platform for IT professionals and clients",
         
         feature1Title: "Top-Rated Professionals",
-        feature1Desc: "Access to pre-vetted, highly skilled IT professionals with proven track records.",
+        feature1Desc: "Access to pre-vetted, highly skilled IT professionals with proven track records and excellent client reviews.",
         
         feature2Title: "Secure Payments",
-        feature2Desc: "Your payments are always protected with our secure transaction system.",
+        feature2Desc: "Your payments are always protected. We ensure safe transactions and hold funds until you're satisfied with the work.",
         
         feature3Title: "24/7 Support",
-        feature3Desc: "Our dedicated support team is always available to help you.",
+        feature3Desc: "Our dedicated support team is always available to help you with any questions or concerns, anytime, anywhere.",
         
         feature4Title: "Global Talent Pool",
-        feature4Desc: "Connect with talented professionals from around the world.",
+        feature4Desc: "Connect with talented professionals from around the world, bringing diverse perspectives and expertise to your projects.",
         
         feature5Title: "Quality Guaranteed",
-        feature5Desc: "We maintain high standards through our rating system and review process.",
+        feature5Desc: "We maintain high standards through our rating system and review process, ensuring quality work every time.",
         
         feature6Title: "Satisfaction Promise",
-        feature6Desc: "Not happy? We'll help you find the right professional or provide a resolution.",
+        feature6Desc: "Not happy with the work? We'll help you find the right professional or provide a resolution to ensure your satisfaction.",
         
         statsProjects: "Projects Completed",
         statsClients: "Happy Clients",
@@ -89,7 +97,7 @@ const translations = {
         // Contact Page
         contactHeader: "Get in Touch",
         contactSub: "We'd love to hear from you. Reach out with any questions or feedback!",
-        contactInfo: "Contact Information",
+        contactInfoTitle: "Contact Information",
         contactText: "Have questions? We're here to help! Reach out to us through any of the following channels.",
         email: "Email",
         phone: "Phone",
@@ -101,6 +109,19 @@ const translations = {
         subject: "Subject",
         yourMessage: "Your Message",
         sendBtn: "Send Message",
+        
+        // Contact items
+        emailAddress: "mehadee2305341214@diu.edu.bd",
+        phoneNumber: "01303919978",
+        discordUsername: "stevy7819",
+        officeLocation: "Dhaka, Bangladesh",
+        
+        // Social
+        facebook: "Facebook",
+        github: "GitHub",
+        linkedin: "LinkedIn",
+        instagram: "Instagram",
+        twitter: "Twitter",
         
         // Modals
         joinHeader: "Join SkillSwap Lite",
@@ -119,7 +140,7 @@ const translations = {
         logIn: "Log in",
         loginHeader: "Log In to SkillSwap Lite",
         dontHaveAccount: "Don't have an account?",
-        signUp: "Sign up",
+        signUpLink: "Sign up",
         
         // Notifications
         successSignup: "Successfully signed up!",
@@ -173,6 +194,14 @@ const translations = {
         
         // Partners Section
         trustedPartners: "বিশ্বস্ত অংশীদার",
+        netflix: "নেটফ্লিক্স",
+        amazon: "আমাজন",
+        google: "গুগল",
+        meta: "মেটা",
+        tesla: "টেসলা",
+        paypal: "পেপ্যাল",
+        payoneer: "পেওনিয়ার",
+        brainstation: "ব্রেনস্টেশন২৩",
         
         // Footer
         aboutSkillSwap: "স্কিলসোয়াপ সম্পর্কে",
@@ -215,7 +244,7 @@ const translations = {
         // Contact Page
         contactHeader: "যোগাযোগ করুন",
         contactSub: "আমরা আপনার কাছ থেকে শুনতে চাই। কোনো প্রশ্ন বা মতামত থাকলে জানান!",
-        contactInfo: "যোগাযোগের তথ্য",
+        contactInfoTitle: "যোগাযোগের তথ্য",
         contactText: "প্রশ্ন আছে? আমরা সাহায্য করতে এখানে আছি! নিচের যেকোনো চ্যানেলে আমাদের সাথে যোগাযোগ করুন।",
         email: "ইমেইল",
         phone: "ফোন",
@@ -227,6 +256,19 @@ const translations = {
         subject: "বিষয়",
         yourMessage: "আপনার বার্তা",
         sendBtn: "বার্তা পাঠান",
+        
+        // Contact items
+        emailAddress: "mehadee2305341214@diu.edu.bd",
+        phoneNumber: "০১৩০৩৯১৯৯৭৮",
+        discordUsername: "stevy7819",
+        officeLocation: "ঢাকা, বাংলাদেশ",
+        
+        // Social
+        facebook: "ফেসবুক",
+        github: "গিথাব",
+        linkedin: "লিঙ্কডইন",
+        instagram: "ইনস্টাগ্রাম",
+        twitter: "টুইটার",
         
         // Modals
         joinHeader: "স্কিলসোয়াপ লাইটে যোগ দিন",
@@ -245,7 +287,7 @@ const translations = {
         logIn: "লগ ইন",
         loginHeader: "স্কিলসোয়াপ লাইটে লগ ইন করুন",
         dontHaveAccount: "অ্যাকাউন্ট নেই?",
-        signUp: "সাইন আপ",
+        signUpLink: "সাইন আপ",
         
         // Notifications
         successSignup: "সফলভাবে সাইন আপ হয়েছে!",
@@ -299,6 +341,14 @@ const translations = {
         
         // Partners Section
         trustedPartners: "Socios de Confianza",
+        netflix: "Netflix",
+        amazon: "Amazon",
+        google: "Google",
+        meta: "Meta",
+        tesla: "Tesla",
+        paypal: "PayPal",
+        payoneer: "Payoneer",
+        brainstation: "BrainStation23",
         
         // Footer
         aboutSkillSwap: "Acerca de SkillSwap",
@@ -341,7 +391,7 @@ const translations = {
         // Contact Page
         contactHeader: "Póngase en Contacto",
         contactSub: "Nos encantaría saber de usted. ¡Comuníquese con cualquier pregunta o comentario!",
-        contactInfo: "Información de Contacto",
+        contactInfoTitle: "Información de Contacto",
         contactText: "¿Tiene preguntas? ¡Estamos aquí para ayudar! Contáctenos a través de cualquiera de los siguientes canales.",
         email: "Correo",
         phone: "Teléfono",
@@ -353,6 +403,19 @@ const translations = {
         subject: "Asunto",
         yourMessage: "Su Mensaje",
         sendBtn: "Enviar Mensaje",
+        
+        // Contact items
+        emailAddress: "mehadee2305341214@diu.edu.bd",
+        phoneNumber: "01303919978",
+        discordUsername: "stevy7819",
+        officeLocation: "Dhaka, Bangladesh",
+        
+        // Social
+        facebook: "Facebook",
+        github: "GitHub",
+        linkedin: "LinkedIn",
+        instagram: "Instagram",
+        twitter: "Twitter",
         
         // Modals
         joinHeader: "Únase a SkillSwap Lite",
@@ -371,7 +434,7 @@ const translations = {
         logIn: "Iniciar sesión",
         loginHeader: "Iniciar Sesión en SkillSwap Lite",
         dontHaveAccount: "¿No tiene una cuenta?",
-        signUp: "Regístrate",
+        signUpLink: "Regístrate",
         
         // Notifications
         successSignup: "¡Registro exitoso!",
