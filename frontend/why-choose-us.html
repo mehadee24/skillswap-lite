@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Choose Us - SkillSwap Lite</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-code"></i>
+                <span>SkillSwap Lite</span>
+            </div>
+            
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="why-choose-us.html" class="active">Why Choose Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            
+            <div class="nav-controls">
+                <select class="language-select" id="languageSelect">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                </select>
+
+                <button class="dark-mode-toggle" id="darkModeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+
+                <button class="join-btn" id="joinBtn">Join</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>Why Choose SkillSwap Lite?</h1>
+        <p>Discover what makes us the preferred platform for IT professionals and clients</p>
+    </section>
+
+    <!-- Why Choose Us Content -->
+    <section class="why-choose-us">
+        <div class="features-grid">
+            <div class="feature-card fade-in">
+                <i class="fas fa-medal"></i>
+                <h3>Top-Rated Professionals</h3>
+                <p>Access to pre-vetted, highly skilled IT professionals with proven track records and excellent client reviews.</p>
+            </div>
+
+            <div class="feature-card fade-in" style="animation-delay: 0.1s">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Secure Payments</h3>
+                <p>Your payments are always protected. We ensure safe transactions and hold funds until you're satisfied with the work.</p>
+            </div>
+
+            <div class="feature-card fade-in" style="animation-delay: 0.2s">
+                <i class="fas fa-clock"></i>
+                <h3>24/7 Support</h3>
+                <p>Our dedicated support team is always available to help you with any questions or concerns, anytime, anywhere.</p>
+            </div>
+
+            <div class="feature-card fade-in" style="animation-delay: 0.3s">
+                <i class="fas fa-globe"></i>
+                <h3>Global Talent Pool</h3>
+                <p>Connect with talented professionals from around the world, bringing diverse perspectives and expertise to your projects.</p>
+            </div>
+
+            <div class="feature-card fade-in" style="animation-delay: 0.4s">
+                <i class="fas fa-chart-line"></i>
+                <h3>Quality Guaranteed</h3>
+                <p>We maintain high standards through our rating system and review process, ensuring quality work every time.</p>
+            </div>
+
+            <div class="feature-card fade-in" style="animation-delay: 0.5s">
+                <i class="fas fa-handshake"></i>
+                <h3>Satisfaction Promise</h3>
+                <p>Not happy with the work? We'll help you find the right professional or provide a resolution to ensure your satisfaction.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="partners-section">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; text-align: center;">
+                <div>
+                    <h2 style="font-size: 3rem; color: var(--accent-color);">500+</h2>
+                    <p style="color: var(--text-secondary);">Projects Completed</p>
+                </div>
+                <div>
+                    <h2 style="font-size: 3rem; color: var(--accent-color);">200+</h2>
+                    <p style="color: var(--text-secondary);">Happy Clients</p>
+                </div>
+                <div>
+                    <h2 style="font-size: 3rem; color: var(--accent-color);">50+</h2>
+                    <p style="color: var(--text-secondary);">Expert Professionals</p>
+                </div>
+                <div>
+                    <h2 style="font-size: 3rem; color: var(--accent-color);">4.9</h2>
+                    <p style="color: var(--text-secondary);">Average Rating</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <!-- Footer content will be added later -->
+    </footer>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="joinModal">
+        <!-- Same modal content as index.html -->
+    </div>
+
+    <div class="modal-overlay" id="loginModal">
+        <!-- Same modal content as index.html -->
+    </div>
+
+    <script src="js/darkmode.js"></script>
+    <script src="js/joinPopup.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
