@@ -5,6 +5,14 @@
 
 class AuthModal {
     constructor() {
+        // Add this line:
+        this.API_BASE_URL = "https://skillswap-lite-1.onrender.com/api";
+        
+        this.joinModal = document.getElementById('joinModal');
+        // ... rest of your constructor code
+
+class AuthModal {
+    constructor() {
         this.joinModal = document.getElementById('joinModal');
         this.loginModal = document.getElementById('loginModal');
         this.joinBtn = document.getElementById('joinBtn');
