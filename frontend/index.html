@@ -17,6 +17,13 @@
                 <span>SkillSwap Lite</span>
             </div>
             
+            <!-- Navigation Links -->
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="why-choose-us.html">Why Choose Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            
             <div class="nav-controls">
                 <!-- Language Selector -->
                 <select class="language-select" id="languageSelect">
@@ -38,7 +45,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero fade-in">
         <div class="hero-container">
             <h1 class="hero-title">Find the Perfect IT Service Provider</h1>
             <p class="hero-subtitle">Connect with top freelancers for your next project</p>
@@ -50,12 +57,14 @@
                     <input type="text" 
                            id="searchInput" 
                            class="search-input" 
-                           placeholder="Search for services..." 
+                           placeholder="Search for services or professionals..." 
                            autocomplete="off">
                 </div>
                 
                 <!-- Autocomplete Suggestions -->
                 <div class="suggestions-container" id="suggestions"></div>
+                
+                <!-- Search Results will be dynamically inserted here -->
             </div>
 
             <!-- Keyword Suggestions -->
@@ -67,12 +76,14 @@
                 <button class="keyword-btn" data-keyword="AI Expert">AI Expert</button>
                 <button class="keyword-btn" data-keyword="Cyber Security">Cyber Security</button>
                 <button class="keyword-btn" data-keyword="Game Developer">Game Developer</button>
+                <button class="keyword-btn" data-keyword="UI Designer">UI Designer</button>
+                <button class="keyword-btn" data-keyword="Cloud Architect">Cloud Architect</button>
             </div>
         </div>
     </section>
 
     <!-- Top Service Providers Section -->
-    <section class="providers-section">
+    <section class="providers-section slide-up">
         <div class="container">
             <h2 class="section-title">Top Service Providers</h2>
             <div class="providers-grid" id="providersGrid">
@@ -164,7 +175,7 @@
     </section>
 
     <!-- Trusted Partners Section -->
-    <section class="partners-section">
+    <section class="partners-section slide-up">
         <div class="container">
             <h2 class="section-title">Trusted Partners</h2>
             <div class="partners-grid">
@@ -180,7 +191,58 @@
         </div>
     </section>
 
-    <!-- Join Modal Popup -->
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About SkillSwap</h3>
+                <p>Connect with top IT professionals for your next project. We provide a platform for freelancers and clients to work together seamlessly.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="why-choose-us.html"><i class="fas fa-chevron-right"></i> Why Choose Us</a></li>
+                    <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> mehadee2305341214@diu.edu.bd</p>
+                    <p><i class="fas fa-phone"></i> 01303919978</p>
+                    <p><i class="fab fa-discord"></i> stevy7819</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Dhaka, Bangladesh</p>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Subscribe to get updates on new professionals and features</p>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" placeholder="Your email" required>
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 SkillSwap Lite. All rights reserved. | Designed with <i class="fas fa-heart" style="color: #ff4757;"></i> for university project</p>
+        </div>
+    </footer>
+
+    <!-- Join Modal -->
     <div class="modal-overlay" id="joinModal">
         <div class="modal-container">
             <button class="modal-close" id="closeModal">&times;</button>
@@ -248,7 +310,7 @@
         </div>
     </div>
 
-    <!-- Login Form (Hidden by default) -->
+    <!-- Login Modal -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal-container">
             <button class="modal-close" id="closeLoginModal">&times;</button>
@@ -293,5 +355,19 @@
     <script src="js/search.js"></script>
     <script src="js/joinPopup.js"></script>
     <script src="js/main.js"></script>
+    
+    <script>
+        // Newsletter form handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const newsletterForm = document.getElementById('newsletterForm');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Thank you for subscribing to our newsletter!');
+                    newsletterForm.reset();
+                });
+            }
+        });
+    </script>
 </body>
 </html>
