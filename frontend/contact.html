@@ -7,59 +7,6 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-    <!-- Google Translate Widget -->
-    <div id="google_translate_element" style="display: none;"></div>
-    
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                includedLanguages: 'en,bn,es',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-            }, 'google_translate_element');
-        }
-        
-        // Custom language switcher using Google Translate
-        document.addEventListener('DOMContentLoaded', function() {
-            const languageSelect = document.getElementById('languageSelect');
-            if (languageSelect) {
-                // Set saved language
-                const savedLang = localStorage.getItem('googleTranslateLang') || 'en';
-                languageSelect.value = savedLang;
-                
-                // Wait for Google Translate to load
-                setTimeout(function() {
-                    const select = document.querySelector('.goog-te-combo');
-                    if (select && savedLang !== 'en') {
-                        select.value = savedLang;
-                        select.dispatchEvent(new Event('change'));
-                    }
-                }, 1000);
-                
-                // Handle language change
-                languageSelect.addEventListener('change', function(e) {
-                    const lang = e.target.value;
-                    localStorage.setItem('googleTranslateLang', lang);
-                    
-                    if (lang === 'en') {
-                        // Reset to English
-                        location.reload();
-                    } else {
-                        // Find and trigger Google Translate dropdown
-                        const checkInterval = setInterval(function() {
-                            const select = document.querySelector('.goog-te-combo');
-                            if (select) {
-                                select.value = lang;
-                                select.dispatchEvent(new Event('change'));
-                                clearInterval(checkInterval);
-                            }
-                        }, 100);
-                    }
-                });
-            }
-        });
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar">
@@ -80,7 +27,6 @@
                 <select class="language-select" id="languageSelect">
                     <option value="en">🇬🇧 English</option>
                     <option value="bn">🇧🇩 বাংলা (Bangla)</option>
-                    <option value="es">🇪🇸 Español</option>
                 </select>
 
                 <!-- Dark Mode Toggle -->
@@ -144,11 +90,21 @@
                 </div>
                 
                 <div class="social-links" style="margin-top: 30px;">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="https://www.facebook.com/syed.mehadee" target="_blank" rel="noopener noreferrer" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://github.com/mehadee24" target="_blank" rel="noopener noreferrer" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/syed-mehadee-2434152a5/" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://www.instagram.com/sy.mde/" target="_blank" rel="noopener noreferrer" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" title="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
                 </div>
             </div>
             
@@ -173,7 +129,7 @@
         </div>
     </section>
 
-    <!-- Footer - COMPLETE VERSION -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-section">
@@ -261,40 +217,29 @@
     <div class="modal-overlay" id="joinModal">
         <div class="modal-container">
             <button class="modal-close" id="closeModal">&times;</button>
-            
             <div class="modal-header">
                 <h2>Join SkillSwap Lite</h2>
                 <p>Choose how you want to continue</p>
             </div>
-
             <div class="modal-body">
-                <!-- Google Sign In Button -->
                 <button class="google-btn" id="googleSignIn">
                     <i class="fab fa-google"></i>
                     Continue with Google
                 </button>
-
-                <div class="divider">
-                    <span>or</span>
-                </div>
-
-                <!-- Email Sign Up Form -->
+                <div class="divider"><span>or</span></div>
                 <form id="signupForm" class="signup-form">
                     <div class="form-group">
                         <label for="name">Full Name</label>
                         <input type="text" id="name" name="name" required>
                     </div>
-
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email" required>
                     </div>
-
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" id="password" name="password" required>
                     </div>
-
                     <div class="form-group">
                         <label for="userType">I want to</label>
                         <select id="userType" name="userType" required>
@@ -302,8 +247,6 @@
                             <option value="provider">Offer My Services</option>
                         </select>
                     </div>
-
-                    <!-- Provider specific fields (hidden by default) -->
                     <div id="providerFields" class="provider-fields hidden">
                         <div class="form-group">
                             <label for="skills">Skills (comma separated)</label>
@@ -314,13 +257,9 @@
                             <textarea id="description" name="description" rows="3"></textarea>
                         </div>
                     </div>
-
                     <button type="submit" class="signup-submit">Sign Up with Email</button>
                 </form>
-
-                <p class="login-link">
-                    Already have an account? <a href="#" id="showLogin">Log in</a>
-                </p>
+                <p class="login-link">Already have an account? <a href="#" id="showLogin">Log in</a></p>
             </div>
         </div>
     </div>
@@ -329,41 +268,31 @@
     <div class="modal-overlay" id="loginModal">
         <div class="modal-container">
             <button class="modal-close" id="closeLoginModal">&times;</button>
-            
             <div class="modal-header">
                 <h2>Log In to SkillSwap Lite</h2>
             </div>
-
             <div class="modal-body">
                 <button class="google-btn" id="googleSignInLogin">
                     <i class="fab fa-google"></i>
                     Continue with Google
                 </button>
-
-                <div class="divider">
-                    <span>or</span>
-                </div>
-
+                <div class="divider"><span>or</span></div>
                 <form id="loginForm" class="signup-form">
                     <div class="form-group">
                         <label for="loginEmail">Email</label>
                         <input type="email" id="loginEmail" name="email" required>
                     </div>
-
                     <div class="form-group">
                         <label for="loginPassword">Password</label>
                         <input type="password" id="loginPassword" name="password" required>
                     </div>
-
                     <button type="submit" class="signup-submit">Log In</button>
                 </form>
-
-                <p class="login-link">
-                    Don't have an account? <a href="#" id="showSignup">Sign up</a>
-                </p>
+                <p class="login-link">Don't have an account? <a href="#" id="showSignup">Sign up</a></p>
             </div>
         </div>
     </div>
+
     <!-- Google Translate Widget -->
     <div id="google_translate_element" style="display: none;"></div>
     
@@ -371,81 +300,69 @@
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
                 pageLanguage: 'en',
-                includedLanguages: 'en,bn,es',
+                includedLanguages: 'bn',
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE
             }, 'google_translate_element');
         }
         
-        // Custom language switcher using Google Translate
         document.addEventListener('DOMContentLoaded', function() {
             const languageSelect = document.getElementById('languageSelect');
-            if (languageSelect) {
-                // Set saved language
-                const savedLang = localStorage.getItem('googleTranslateLang') || 'en';
-                languageSelect.value = savedLang;
-                
-                // Wait for Google Translate to load
+            if (!languageSelect) return;
+            
+            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+            languageSelect.value = savedLang;
+            
+            if (savedLang === 'bn') {
                 setTimeout(function() {
                     const select = document.querySelector('.goog-te-combo');
-                    if (select && savedLang !== 'en') {
-                        select.value = savedLang;
+                    if (select) {
+                        select.value = 'bn';
                         select.dispatchEvent(new Event('change'));
                     }
-                }, 1000);
-                
-                // Handle language change
-                languageSelect.addEventListener('change', function(e) {
-                    const lang = e.target.value;
-                    localStorage.setItem('googleTranslateLang', lang);
-                    
-                    if (lang === 'en') {
-                        // Reset to English
-                        location.reload();
-                    } else {
-                        // Find and trigger Google Translate dropdown
-                        const checkInterval = setInterval(function() {
-                            const select = document.querySelector('.goog-te-combo');
-                            if (select) {
-                                select.value = lang;
-                                select.dispatchEvent(new Event('change'));
-                                clearInterval(checkInterval);
-                            }
-                        }, 100);
-                    }
-                });
+                }, 1500);
             }
+            
+            languageSelect.addEventListener('change', function(e) {
+                const lang = e.target.value;
+                localStorage.setItem('preferredLanguage', lang);
+                
+                if (lang === 'en') {
+                    location.reload();
+                } else if (lang === 'bn') {
+                    const checkInterval = setInterval(function() {
+                        const select = document.querySelector('.goog-te-combo');
+                        if (select) {
+                            select.value = 'bn';
+                            select.dispatchEvent(new Event('change'));
+                            clearInterval(checkInterval);
+                        }
+                    }, 100);
+                }
+            });
         });
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <!-- Scripts -->
-    <script src="js/translations.js"></script>
-    <script src="js/language.js"></script>
+    
+    <!-- Your other scripts -->
     <script src="js/darkmode.js"></script>
     <script src="js/search.js"></script>
     <script src="js/joinPopup.js"></script>
     <script src="js/main.js"></script>
     
     <script>
-        // Contact form handler
         document.addEventListener('DOMContentLoaded', function() {
             const contactForm = document.getElementById('contactForm');
             if (contactForm) {
                 contactForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    
-                    // Show success message (you can replace with actual form submission)
                     alert('Thank you for your message! We will get back to you soon.');
                     contactForm.reset();
                 });
             }
-
-            // Newsletter form handler
             const newsletterForm = document.getElementById('newsletterForm');
             if (newsletterForm) {
                 newsletterForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    
-                    // Show success message
                     alert('Thank you for subscribing to our newsletter!');
                     newsletterForm.reset();
                 });
