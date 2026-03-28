@@ -1353,3 +1353,36 @@ body {
     opacity: 0.9;
     transform: translateY(-3px);
 }
+
+/* Hide Google Translate Banner */
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+
+body {
+    top: 0px !important;
+}
+
+.goog-te-gadget {
+    display: none;
+}
+
+.goog-te-gadget-simple {
+    display: none !important;
+}
+
+/* Fix for Google Translate breaking layout */
+.goog-te-gadget-icon {
+    display: none;
+}
+
+/* Hide the Google Translate frame */
+iframe.goog-te-banner-frame {
+    display: none !important;
+}
+
+/* Ensure body doesn't get pushed down */
+body {
+    position: static !important;
+    top: auto !important;
+}
