@@ -7,6 +7,59 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+    <!-- Google Translate Widget -->
+    <div id="google_translate_element" style="display: none;"></div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,bn,es',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+        
+        // Custom language switcher using Google Translate
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageSelect = document.getElementById('languageSelect');
+            if (languageSelect) {
+                // Set saved language
+                const savedLang = localStorage.getItem('googleTranslateLang') || 'en';
+                languageSelect.value = savedLang;
+                
+                // Wait for Google Translate to load
+                setTimeout(function() {
+                    const select = document.querySelector('.goog-te-combo');
+                    if (select && savedLang !== 'en') {
+                        select.value = savedLang;
+                        select.dispatchEvent(new Event('change'));
+                    }
+                }, 1000);
+                
+                // Handle language change
+                languageSelect.addEventListener('change', function(e) {
+                    const lang = e.target.value;
+                    localStorage.setItem('googleTranslateLang', lang);
+                    
+                    if (lang === 'en') {
+                        // Reset to English
+                        location.reload();
+                    } else {
+                        // Find and trigger Google Translate dropdown
+                        const checkInterval = setInterval(function() {
+                            const select = document.querySelector('.goog-te-combo');
+                            if (select) {
+                                select.value = lang;
+                                select.dispatchEvent(new Event('change'));
+                                clearInterval(checkInterval);
+                            }
+                        }, 100);
+                    }
+                });
+            }
+        });
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar">
@@ -290,7 +343,59 @@
             </div>
         </div>
     </div>
-
+    <!-- Google Translate Widget -->
+    <div id="google_translate_element" style="display: none;"></div>
+    
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,bn,es',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+        
+        // Custom language switcher using Google Translate
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageSelect = document.getElementById('languageSelect');
+            if (languageSelect) {
+                // Set saved language
+                const savedLang = localStorage.getItem('googleTranslateLang') || 'en';
+                languageSelect.value = savedLang;
+                
+                // Wait for Google Translate to load
+                setTimeout(function() {
+                    const select = document.querySelector('.goog-te-combo');
+                    if (select && savedLang !== 'en') {
+                        select.value = savedLang;
+                        select.dispatchEvent(new Event('change'));
+                    }
+                }, 1000);
+                
+                // Handle language change
+                languageSelect.addEventListener('change', function(e) {
+                    const lang = e.target.value;
+                    localStorage.setItem('googleTranslateLang', lang);
+                    
+                    if (lang === 'en') {
+                        // Reset to English
+                        location.reload();
+                    } else {
+                        // Find and trigger Google Translate dropdown
+                        const checkInterval = setInterval(function() {
+                            const select = document.querySelector('.goog-te-combo');
+                            if (select) {
+                                select.value = lang;
+                                select.dispatchEvent(new Event('change'));
+                                clearInterval(checkInterval);
+                            }
+                        }, 100);
+                    }
+                });
+            }
+        });
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <!-- Scripts -->
     <script src="js/translations.js"></script>
     <script src="js/language.js"></script>
