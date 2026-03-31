@@ -1,27 +1,20 @@
 const ServiceProvider = require('../models/ServiceProvider');
 
-// Predefined search suggestions based on the project requirements
+// Predefined search suggestions for autocomplete
 const searchKeywords = [
-    'Web Developer',
-    'Web Designer',
-    'Web Security',
-    'App Developer',
-    'Machine Learning Engineer',
-    'AI Expert',
-    'Cyber Security Expert',
-    'Logo Designer',
-    '3D Modeling',
-    'Game Developer',
-    'Backend Development',
-    'Frontend Development',
-    'UI Designer',
-    'Android Developer',
-    'iOS Developer'
+    'Web Developer', 'Web Designer', 'Web Security',
+    'App Developer', 'Machine Learning Engineer', 'AI Expert',
+    'Cyber Security Expert', 'Logo Designer', '3D Modeling',
+    'Game Developer', 'Backend Development', 'Frontend Development',
+    'UI Designer', 'Android Developer', 'iOS Developer',
+    'Cloud Architect', 'DevOps Engineer', 'Data Scientist',
+    'Blockchain Developer', 'IoT Engineer', 'QA Tester',
+    'Database Administrator', 'Network Engineer', 'ERP Consultant'
 ];
 
 /**
  * @desc    Search service providers and get suggestions
- * @route   GET /api/search
+ * @route   GET /api/search?q=keyword
  * @access  Public
  */
 exports.search = async (req, res) => {
@@ -41,21 +34,33 @@ exports.search = async (req, res) => {
         // Get suggestions from predefined keywords
         const suggestions = searchKeywords.filter(keyword => 
             keyword.toLowerCase().includes(searchTerm)
-        ).slice(0, 5); // Limit to 5 suggestions
+        ).slice(0, 5);
 
         // Search for service providers in database
         const providers = await ServiceProvider.find({
             $or: [
                 { name: { $regex: searchTerm, $options: 'i' } },
                 { skills: { $in: [new RegExp(searchTerm, 'i')] } },
-                { description: { $regex: searchTerm, $options: 'i' } }
+                { description: { $regex: searchTerm, $options: 'i' } },
+                { currentlyWorkingOn: { $regex: searchTerm, $options: 'i' } }
             ]
-        }).limit(10);
+        })
+        .select('name skills rating projectsCompleted description currentlyWorkingOn profileImage')
+        .limit(20);
 
         res.json({
             success: true,
             suggestions,
-            providers
+            providers: providers.map(provider => ({
+                id: provider._id,
+                name: provider.name,
+                skills: provider.skills,
+                rating: provider.rating,
+                projectsCompleted: provider.projectsCompleted,
+                description: provider.description,
+                currentlyWorkingOn: provider.currentlyWorkingOn,
+                avatar: provider.name.charAt(0).toUpperCase()
+            }))
         });
     } catch (error) {
         console.error('Search error:', error);
@@ -67,20 +72,52 @@ exports.search = async (req, res) => {
 };
 
 /**
- * @desc    Get all service providers
+ * @desc    Get all service providers (with filters)
  * @route   GET /api/providers
  * @access  Public
  */
 exports.getProviders = async (req, res) => {
     try {
-        const providers = await ServiceProvider.find()
-            .select('-reviews') // Exclude reviews for list view
-            .sort({ rating: -1 }) // Sort by highest rating
-            .limit(20);
+        const { skill, minRating, search } = req.query;
+        let query = {};
+
+        // Filter by skill
+        if (skill) {
+            query.skills = { $regex: skill, $options: 'i' };
+        }
+
+        // Filter by minimum rating
+        if (minRating) {
+            query.rating = { $gte: parseFloat(minRating) };
+        }
+
+        // General search
+        if (search) {
+            query.$or = [
+                { name: { $regex: search, $options: 'i' } },
+                { skills: { $in: [new RegExp(search, 'i')] } },
+                { description: { $regex: search, $options: 'i' } }
+            ];
+        }
+
+        const providers = await ServiceProvider.find(query)
+            .select('name skills rating projectsCompleted description currentlyWorkingOn profileImage')
+            .sort({ rating: -1 })
+            .limit(50);
 
         res.json({
             success: true,
-            providers
+            count: providers.length,
+            providers: providers.map(provider => ({
+                id: provider._id,
+                name: provider.name,
+                skills: provider.skills,
+                rating: provider.rating,
+                projectsCompleted: provider.projectsCompleted,
+                description: provider.description,
+                currentlyWorkingOn: provider.currentlyWorkingOn,
+                avatar: provider.name.charAt(0).toUpperCase()
+            }))
         });
     } catch (error) {
         console.error('Get providers error:', error);
@@ -110,7 +147,19 @@ exports.getProviderById = async (req, res) => {
 
         res.json({
             success: true,
-            provider
+            provider: {
+                id: provider._id,
+                name: provider.name,
+                email: provider.email,
+                skills: provider.skills,
+                description: provider.description,
+                projectsCompleted: provider.projectsCompleted,
+                currentlyWorkingOn: provider.currentlyWorkingOn,
+                rating: provider.rating,
+                totalReviews: provider.totalReviews,
+                reviews: provider.reviews,
+                avatar: provider.name.charAt(0).toUpperCase()
+            }
         });
     } catch (error) {
         console.error('Get provider error:', error);
