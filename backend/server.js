@@ -24,8 +24,9 @@ const app = express();
 //(required for HTTPS detection)
 app.enable('trust proxy');
 
-// Connect to MongoDB
-connectDB();
+// Connect to MongoDB before starting server
+(async () => {
+    await connectDB();
 
 // Force HTTPS redirect in production
 app.use((req, res, next) => {
@@ -108,8 +109,9 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3000;
 
 // Start server
-app.listen(PORT, () => {
-    console.log(`Server is running on ${process.env.NODE_ENV === 'production' ? 'https' : 'http'}://localhost:${PORT}`);
-    console.log(`Frontend served from: ${path.join(__dirname, '../frontend')}`);
-    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+    app.listen(PORT, () => {
+        console.log(`Server is running on ${process.env.NODE_ENV === 'production' ? 'https' : 'http'}://localhost:${PORT}`);
+        console.log(`Frontend served from: ${path.join(__dirname, '../frontend')}`);
+        console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
+})();

@@ -5,8 +5,8 @@
 
 class SearchHandler {
     constructor() {
-        // API Base URL - your Render backend
-        this.API_BASE_URL = "https://skillswap-lite-1.onrender.com/api";
+        // API Base URL - use relative path for flexibility
+        this.API_BASE_URL = "/api";
         
         this.searchInput = document.getElementById('searchInput');
         this.suggestionsContainer = document.getElementById('suggestions');
@@ -23,8 +23,9 @@ class SearchHandler {
         
         this.selectedIndex = -1;
         this.suggestions = [];
+        this.apiResults = []; // Store real results from backend
         
-        // Mock data for IT professionals
+        // Mock/fallback data for IT professionals
         this.itProfessionals = [
             {
                 name: "Mehadee",
@@ -151,12 +152,15 @@ class SearchHandler {
             
             if (data.success && data.suggestions && data.suggestions.length > 0) {
                 this.suggestions = data.suggestions;
+                // Store API results for later use in performSearch
+                this.apiResults = data.providers || [];
                 this.showSuggestions(data.suggestions);
             } else {
                 // Fallback to local suggestions based on query
                 const localSuggestions = this.getLocalSuggestions(query);
                 if (localSuggestions.length > 0) {
                     this.suggestions = localSuggestions;
+                    this.apiResults = []; // Clear API results if suggestions failed
                     this.showSuggestions(localSuggestions);
                 } else {
                     this.hideSuggestions();
@@ -168,6 +172,7 @@ class SearchHandler {
             const localSuggestions = this.getLocalSuggestions(query);
             if (localSuggestions.length > 0) {
                 this.suggestions = localSuggestions;
+                this.apiResults = []; // Clear API results on error
                 this.showSuggestions(localSuggestions);
             } else {
                 this.hideSuggestions();
@@ -290,13 +295,27 @@ class SearchHandler {
         console.log('Searching for:', query);
         this.hideSuggestions();
         
-        // Filter professionals based on query
+        let results = [];
         const lowercaseQuery = query.toLowerCase();
-        const results = this.itProfessionals.filter(pro => 
-            pro.name.toLowerCase().includes(lowercaseQuery) ||
-            pro.skills.some(skill => skill.toLowerCase().includes(lowercaseQuery)) ||
-            pro.title.toLowerCase().includes(lowercaseQuery)
-        );
+        
+        // Use API results if available, otherwise fall back to mock data
+        if (this.apiResults && this.apiResults.length > 0) {
+            results = this.apiResults.filter(pro => {
+                const nameMatch = pro.name.toLowerCase().includes(lowercaseQuery);
+                const skillMatch = pro.skills && pro.skills.some(skill => 
+                    String(skill).toLowerCase().includes(lowercaseQuery)
+                );
+                const descMatch = pro.description && pro.description.toLowerCase().includes(lowercaseQuery);
+                return nameMatch || skillMatch || descMatch;
+            });
+        } else {
+            // Fallback to mock data
+            results = this.itProfessionals.filter(pro => 
+                pro.name.toLowerCase().includes(lowercaseQuery) ||
+                pro.skills.some(skill => skill.toLowerCase().includes(lowercaseQuery)) ||
+                pro.title.toLowerCase().includes(lowercaseQuery)
+            );
+        }
         
         this.displaySearchResults(results, query);
     }
@@ -320,17 +339,17 @@ class SearchHandler {
                 <div class="search-results-grid">
                     ${results.map(pro => `
                         <div class="search-result-card">
-                            <div class="result-avatar">${pro.avatar}</div>
+                            <div class="result-avatar">${pro.avatar || pro.name.charAt(0).toUpperCase()}</div>
                             <div class="result-info">
                                 <h4>${pro.name}</h4>
-                                <p class="result-title">${pro.title}</p>
+                                <p class="result-title">${pro.title || 'Professional'}</p>
                                 <div class="result-skills">
-                                    ${pro.skills.slice(0, 3).map(skill => `<span class="result-skill">${skill}</span>`).join('')}
-                                    ${pro.skills.length > 3 ? `<span class="result-skill">+${pro.skills.length - 3}</span>` : ''}
+                                    ${(pro.skills || []).slice(0, 3).map(skill => `<span class="result-skill">${skill}</span>`).join('')}
+                                    ${(pro.skills && pro.skills.length > 3) ? `<span class="result-skill">+${pro.skills.length - 3}</span>` : ''}
                                 </div>
                                 <div class="result-meta">
-                                    <span class="result-rating"><i class="fas fa-star"></i> ${pro.rating}</span>
-                                    <span class="result-projects"><i class="fas fa-briefcase"></i> ${pro.projects} projects</span>
+                                    <span class="result-rating"><i class="fas fa-star"></i> ${pro.rating || 'N/A'}</span>
+                                    <span class="result-projects"><i class="fas fa-briefcase"></i> ${pro.projectsCompleted || pro.projects || 0} projects</span>
                                 </div>
                             </div>
                         </div>
