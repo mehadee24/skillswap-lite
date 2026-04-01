@@ -1,12 +1,7 @@
-/**
- * Search Functionality with Autocomplete and Results
- * Handles search input, suggestions from backend, and displays results
- */
 
 class SearchHandler {
     constructor() {
-        // API Base URL - use relative path for flexibility
-        this.API_BASE_URL = "/api";
+        this.API_BASE_URL = "https://skillswap-lite-1.onrender.com/api";
         
         this.searchInput = document.getElementById('searchInput');
         this.suggestionsContainer = document.getElementById('suggestions');
@@ -15,7 +10,6 @@ class SearchHandler {
         this.searchResultsContainer.className = 'search-results-container';
         this.searchResultsContainer.style.display = 'none';
         
-        // Insert results container after search
         const searchContainer = document.querySelector('.search-container');
         if (searchContainer) {
             searchContainer.appendChild(this.searchResultsContainer);
@@ -23,75 +17,7 @@ class SearchHandler {
         
         this.selectedIndex = -1;
         this.suggestions = [];
-        this.apiResults = []; // Store real results from backend
-        
-        // Mock/fallback data for IT professionals
-        this.itProfessionals = [
-            {
-                name: "Mehadee",
-                skills: ["Backend Development", "Machine Learning", "AI", "React", "Node.js"],
-                rating: 4.9,
-                projects: 45,
-                avatar: "M",
-                title: "Full Stack Developer & AI Specialist"
-            },
-            {
-                name: "Rakib",
-                skills: ["Game Development", "Unreal Engine", "3D Modeling", "C++", "Physics"],
-                rating: 4.8,
-                projects: 32,
-                avatar: "R",
-                title: "Game Developer & Graphics Engineer"
-            },
-            {
-                name: "Alamin",
-                skills: ["UI/UX Design", "Frontend", "Mobile Apps", "React Native", "Figma"],
-                rating: 5.0,
-                projects: 51,
-                avatar: "A",
-                title: "UI/UX Designer & Frontend Developer"
-            },
-            {
-                name: "Sarah Khan",
-                skills: ["Cyber Security", "Ethical Hacking", "Network Security", "Penetration Testing"],
-                rating: 4.7,
-                projects: 28,
-                avatar: "S",
-                title: "Cyber Security Expert"
-            },
-            {
-                name: "Tanvir Ahmed",
-                skills: ["Cloud Computing", "AWS", "DevOps", "Docker", "Kubernetes"],
-                rating: 4.9,
-                projects: 37,
-                avatar: "T",
-                title: "Cloud Architect & DevOps Engineer"
-            },
-            {
-                name: "Nusrat Jahan",
-                skills: ["Data Science", "Python", "TensorFlow", "Data Visualization", "SQL"],
-                rating: 4.8,
-                projects: 42,
-                avatar: "N",
-                title: "Data Scientist & ML Engineer"
-            },
-            {
-                name: "Kamal Hossain",
-                skills: ["Mobile Development", "Flutter", "iOS", "Android", "Firebase"],
-                rating: 4.6,
-                projects: 39,
-                avatar: "K",
-                title: "Cross-Platform Mobile Developer"
-            },
-            {
-                name: "Farhana Islam",
-                skills: ["Frontend Development", "React", "Vue.js", "Angular", "UI Design"],
-                rating: 4.8,
-                projects: 44,
-                avatar: "F",
-                title: "Frontend Specialist"
-            }
-        ];
+        this.searchTimeout = null;
         
         this.init();
     }
@@ -99,12 +25,10 @@ class SearchHandler {
     init() {
         if (!this.searchInput) return;
         
-        // Add event listeners
         this.searchInput.addEventListener('input', this.handleInput.bind(this));
         this.searchInput.addEventListener('keydown', this.handleKeyDown.bind(this));
         this.searchInput.addEventListener('blur', this.handleBlur.bind(this));
         
-        // Add click listeners to keyword buttons
         this.keywordBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const keyword = btn.getAttribute('data-keyword');
@@ -115,7 +39,6 @@ class SearchHandler {
             });
         });
         
-        // Close suggestions when clicking outside
         document.addEventListener('click', (e) => {
             if (!this.searchInput.contains(e.target) && 
                 !this.suggestionsContainer.contains(e.target) &&
@@ -135,69 +58,35 @@ class SearchHandler {
             return;
         }
         
-        // Show suggestions while typing
+        // Debounce search to avoid too many requests
+        clearTimeout(this.searchTimeout);
+        
+        // Get suggestions while typing
         await this.fetchSuggestions(query);
         
-        // If query is longer than 2 chars, show results
-        if (query.length >= 2) {
-            this.performSearch(query);
-        }
+        // Perform search after user stops typing
+        this.searchTimeout = setTimeout(() => {
+            if (query.length >= 2) {
+                this.performSearch(query);
+            }
+        }, 500);
     }
     
     async fetchSuggestions(query) {
         try {
-            // First try backend API
             const response = await fetch(`${this.API_BASE_URL}/search?q=${encodeURIComponent(query)}`);
             const data = await response.json();
             
             if (data.success && data.suggestions && data.suggestions.length > 0) {
                 this.suggestions = data.suggestions;
-                // Store API results for later use in performSearch
-                this.apiResults = data.providers || [];
                 this.showSuggestions(data.suggestions);
-            } else {
-                // Fallback to local suggestions based on query
-                const localSuggestions = this.getLocalSuggestions(query);
-                if (localSuggestions.length > 0) {
-                    this.suggestions = localSuggestions;
-                    this.apiResults = []; // Clear API results if suggestions failed
-                    this.showSuggestions(localSuggestions);
-                } else {
-                    this.hideSuggestions();
-                }
-            }
-        } catch (error) {
-            console.error('Error fetching suggestions:', error);
-            // Use local suggestions as fallback
-            const localSuggestions = this.getLocalSuggestions(query);
-            if (localSuggestions.length > 0) {
-                this.suggestions = localSuggestions;
-                this.apiResults = []; // Clear API results on error
-                this.showSuggestions(localSuggestions);
             } else {
                 this.hideSuggestions();
             }
+        } catch (error) {
+            console.error('Error fetching suggestions:', error);
+            this.hideSuggestions();
         }
-    }
-    
-    getLocalSuggestions(query) {
-        const lowercaseQuery = query.toLowerCase();
-        // Get unique skills from all professionals
-        const allSkills = [...new Set(this.itProfessionals.flatMap(p => p.skills))];
-        
-        // Filter skills that match the query
-        const matchingSkills = allSkills.filter(skill => 
-            skill.toLowerCase().includes(lowercaseQuery)
-        ).slice(0, 5);
-        
-        // Get names that match the query
-        const matchingNames = this.itProfessionals
-            .filter(p => p.name.toLowerCase().includes(lowercaseQuery))
-            .map(p => p.name)
-            .slice(0, 3);
-        
-        // Combine and remove duplicates
-        return [...new Set([...matchingSkills, ...matchingNames])];
     }
     
     showSuggestions(suggestions) {
@@ -270,8 +159,6 @@ class SearchHandler {
         
         if (this.selectedIndex >= 0 && this.selectedIndex < suggestions.length) {
             suggestions[this.selectedIndex].classList.add('selected');
-            
-            // Scroll into view if needed
             suggestions[this.selectedIndex].scrollIntoView({
                 block: 'nearest',
                 behavior: 'smooth'
@@ -291,86 +178,101 @@ class SearchHandler {
         this.performSearch(suggestion);
     }
     
-    performSearch(query) {
+    async performSearch(query) {
         console.log('Searching for:', query);
-        this.hideSuggestions();
+        this.showLoading(true);
         
-        let results = [];
-        const lowercaseQuery = query.toLowerCase();
-        
-        // Use API results if available, otherwise fall back to mock data
-        if (this.apiResults && this.apiResults.length > 0) {
-            results = this.apiResults.filter(pro => {
-                const nameMatch = pro.name.toLowerCase().includes(lowercaseQuery);
-                const skillMatch = pro.skills && pro.skills.some(skill => 
-                    String(skill).toLowerCase().includes(lowercaseQuery)
-                );
-                const descMatch = pro.description && pro.description.toLowerCase().includes(lowercaseQuery);
-                return nameMatch || skillMatch || descMatch;
-            });
-        } else {
-            // Fallback to mock data
-            results = this.itProfessionals.filter(pro => 
-                pro.name.toLowerCase().includes(lowercaseQuery) ||
-                pro.skills.some(skill => skill.toLowerCase().includes(lowercaseQuery)) ||
-                pro.title.toLowerCase().includes(lowercaseQuery)
-            );
+        try {
+            const response = await fetch(`${this.API_BASE_URL}/search?q=${encodeURIComponent(query)}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                this.displaySearchResults(data.providers, query);
+            } else {
+                this.displayNoResults(query);
+            }
+        } catch (error) {
+            console.error('Search error:', error);
+            this.displayNoResults(query);
+        } finally {
+            this.showLoading(false);
         }
-        
-        this.displaySearchResults(results, query);
     }
     
-    displaySearchResults(results, query) {
+    displaySearchResults(providers, query) {
         this.searchResultsContainer.innerHTML = '';
         
-        if (results.length === 0) {
-            this.searchResultsContainer.innerHTML = `
-                <div class="no-results">
-                    <i class="fas fa-search"></i>
-                    <h3>No professionals found for "${query}"</h3>
-                    <p>Try different keywords or browse all professionals below</p>
-                </div>
-            `;
-        } else {
-            const resultsHTML = `
-                <div class="search-results-header">
-                    <h3>Found ${results.length} professional${results.length > 1 ? 's' : ''} for "${query}"</h3>
-                </div>
-                <div class="search-results-grid">
-                    ${results.map(pro => `
-                        <div class="search-result-card">
-                            <div class="result-avatar">${pro.avatar || pro.name.charAt(0).toUpperCase()}</div>
-                            <div class="result-info">
-                                <h4>${pro.name}</h4>
-                                <p class="result-title">${pro.title || 'Professional'}</p>
-                                <div class="result-skills">
-                                    ${(pro.skills || []).slice(0, 3).map(skill => `<span class="result-skill">${skill}</span>`).join('')}
-                                    ${(pro.skills && pro.skills.length > 3) ? `<span class="result-skill">+${pro.skills.length - 3}</span>` : ''}
-                                </div>
-                                <div class="result-meta">
-                                    <span class="result-rating"><i class="fas fa-star"></i> ${pro.rating || 'N/A'}</span>
-                                    <span class="result-projects"><i class="fas fa-briefcase"></i> ${pro.projectsCompleted || pro.projects || 0} projects</span>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-            this.searchResultsContainer.innerHTML = resultsHTML;
+        if (!providers || providers.length === 0) {
+            this.displayNoResults(query);
+            return;
         }
         
-        this.searchResultsContainer.style.display = 'block';
+        const resultsHTML = `
+            <div class="search-results-header">
+                <h3>Found ${providers.length} professional${providers.length > 1 ? 's' : ''} for "${query}"</h3>
+            </div>
+            <div class="search-results-grid">
+                ${providers.map(pro => `
+                    <div class="search-result-card" onclick="window.location.href='provider-profile.html?id=${pro.id}'">
+                        <div class="result-avatar">${pro.avatar || pro.name.charAt(0)}</div>
+                        <div class="result-info">
+                            <h4>${pro.name}</h4>
+                            <div class="result-rating">
+                                <i class="fas fa-star"></i> ${pro.rating || 'New'} 
+                                <span>(${pro.projectsCompleted || 0} projects)</span>
+                            </div>
+                            <div class="result-skills">
+                                ${pro.skills.slice(0, 3).map(skill => `<span class="result-skill">${skill}</span>`).join('')}
+                                ${pro.skills.length > 3 ? `<span class="result-skill">+${pro.skills.length - 3}</span>` : ''}
+                            </div>
+                            <p class="result-description">${pro.description ? pro.description.substring(0, 100) + '...' : ''}</p>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
         
-        // Scroll to results
+        this.searchResultsContainer.innerHTML = resultsHTML;
+        this.searchResultsContainer.style.display = 'block';
         this.searchResultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    
+    displayNoResults(query) {
+        this.searchResultsContainer.innerHTML = `
+            <div class="no-results">
+                <i class="fas fa-search"></i>
+                <h3>No professionals found for "${query}"</h3>
+                <p>Try different keywords like "Web Developer", "App Developer", or "Machine Learning"</p>
+                <p>Or browse all professionals by leaving the search bar empty!</p>
+            </div>
+        `;
+        this.searchResultsContainer.style.display = 'block';
     }
     
     hideSearchResults() {
         this.searchResultsContainer.style.display = 'none';
     }
     
+    showLoading(show) {
+        let loader = document.getElementById('search-loader');
+        
+        if (show && !loader) {
+            loader = document.createElement('div');
+            loader.id = 'search-loader';
+            loader.innerHTML = '<div class="loader-spinner"></div><p>Searching...</p>';
+            loader.style.cssText = `
+                text-align: center;
+                padding: 40px;
+                color: var(--text-secondary);
+            `;
+            this.searchResultsContainer.appendChild(loader);
+            this.searchResultsContainer.style.display = 'block';
+        } else if (!show && loader) {
+            loader.remove();
+        }
+    }
+    
     handleBlur(e) {
-        // Delay hiding to allow click on suggestions
         setTimeout(() => {
             if (!this.suggestionsContainer.contains(document.activeElement) &&
                 !this.searchResultsContainer.contains(document.activeElement)) {
@@ -380,7 +282,7 @@ class SearchHandler {
     }
 }
 
-// Initialize search when DOM is loaded
+// Initialize search
 document.addEventListener('DOMContentLoaded', () => {
     new SearchHandler();
 });
