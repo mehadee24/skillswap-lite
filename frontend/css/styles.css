@@ -1559,3 +1559,73 @@ body {
 [data-theme="dark"] .partner-icon {
     filter: brightness(0) invert(1);
 }
+/* Professional Partner Logos Section - Colorful Version */
+.partners-section {
+    padding: 60px 20px;
+    background: var(--bg-secondary);
+}
+
+.partners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.partner-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 24px 16px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.partner-logo:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px var(--shadow-color);
+    border-color: var(--accent-color);
+}
+
+.partner-icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+.partner-logo:hover .partner-icon {
+    transform: scale(1.05);
+}
+
+/* For dark mode - colorful logos still look great! */
+[data-theme="dark"] .partner-logo {
+    background: var(--card-bg);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .partners-grid {
+        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+        gap: 16px;
+    }
+    
+    .partner-logo {
+        padding: 16px 12px;
+    }
+    
+    .partner-icon {
+        width: 36px;
+        height: 36px;
+    }
+}
