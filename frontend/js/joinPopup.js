@@ -6,7 +6,7 @@
 class AuthModal {
     constructor() {
         // API Base URL - your Render backend
-        this.API_BASE_URL = "https://skillswap-lite-1.onrender.com/api";
+        this.API_BASE_URL = "https://skillswap-lite-api.onrender.com/api";
         
         // Get DOM elements
         this.joinModal = document.getElementById('joinModal');
