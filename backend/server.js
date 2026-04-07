@@ -37,12 +37,15 @@ app.use((req, res, next) => {
 });
 
 // Update CORS for production
-const allowedOrigins = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'https://skillswap-lite-1.netlify.app', // Your Netlify frontend
-    'https://skillswap-lite-1.onrender.com' // Your Render backend
-];
+    app.use(cors({
+        origin: [
+            'http://localhost:3000',
+            'http://127.0.0.1:5500',
+            'https://skillswap-lite-1.netlify.app',
+            'https://skillswap-lite-api.onrender.com'
+        ],
+        credentials: true
+    }));
 
 app.use(cors({
     origin: function(origin, callback) {
