@@ -1,7 +1,12 @@
+/**
+ * Search Functionality with Database Integration
+ * Searches real service providers from MongoDB
+ */
 
 class SearchHandler {
     constructor() {
-        this.API_BASE_URL = "https://skillswap-lite-1.onrender.com/api";
+        // UPDATE THIS to your new Render URL
+        this.API_BASE_URL = "https://skillswap-lite-api.onrender.com/api";
         
         this.searchInput = document.getElementById('searchInput');
         this.suggestionsContainer = document.getElementById('suggestions');
@@ -58,13 +63,10 @@ class SearchHandler {
             return;
         }
         
-        // Debounce search to avoid too many requests
         clearTimeout(this.searchTimeout);
         
-        // Get suggestions while typing
         await this.fetchSuggestions(query);
         
-        // Perform search after user stops typing
         this.searchTimeout = setTimeout(() => {
             if (query.length >= 2) {
                 this.performSearch(query);
@@ -186,7 +188,7 @@ class SearchHandler {
             const response = await fetch(`${this.API_BASE_URL}/search?q=${encodeURIComponent(query)}`);
             const data = await response.json();
             
-            if (data.success) {
+            if (data.success && data.providers && data.providers.length > 0) {
                 this.displaySearchResults(data.providers, query);
             } else {
                 this.displayNoResults(query);
@@ -202,18 +204,13 @@ class SearchHandler {
     displaySearchResults(providers, query) {
         this.searchResultsContainer.innerHTML = '';
         
-        if (!providers || providers.length === 0) {
-            this.displayNoResults(query);
-            return;
-        }
-        
         const resultsHTML = `
             <div class="search-results-header">
                 <h3>Found ${providers.length} professional${providers.length > 1 ? 's' : ''} for "${query}"</h3>
             </div>
             <div class="search-results-grid">
                 ${providers.map(pro => `
-                    <div class="search-result-card" onclick="window.location.href='provider-profile.html?id=${pro.id}'">
+                    <div class="search-result-card">
                         <div class="result-avatar">${pro.avatar || pro.name.charAt(0)}</div>
                         <div class="result-info">
                             <h4>${pro.name}</h4>
@@ -243,7 +240,6 @@ class SearchHandler {
                 <i class="fas fa-search"></i>
                 <h3>No professionals found for "${query}"</h3>
                 <p>Try different keywords like "Web Developer", "App Developer", or "Machine Learning"</p>
-                <p>Or browse all professionals by leaving the search bar empty!</p>
             </div>
         `;
         this.searchResultsContainer.style.display = 'block';
