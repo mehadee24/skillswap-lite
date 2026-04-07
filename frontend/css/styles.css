@@ -1512,3 +1512,37 @@ body {
 .view-profile-btn:hover {
     background: var(--accent-hover);
 }
+
+/* Make partner logos clickable */
+.partner-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+}
+
+.partner-logo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px var(--shadow-color);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.partner-logo i {
+    font-size: 2rem;
+    transition: color 0.3s;
+}
+
+.partner-logo:hover i {
+    color: var(--accent-color);
+}
