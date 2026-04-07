@@ -201,38 +201,41 @@ class SearchHandler {
         }
     }
     
-    displaySearchResults(providers, query) {
-        this.searchResultsContainer.innerHTML = '';
-        
-        const resultsHTML = `
-            <div class="search-results-header">
-                <h3>Found ${providers.length} professional${providers.length > 1 ? 's' : ''} for "${query}"</h3>
-            </div>
-            <div class="search-results-grid">
-                ${providers.map(pro => `
-                    <div class="search-result-card">
-                        <div class="result-avatar">${pro.avatar || pro.name.charAt(0)}</div>
-                        <div class="result-info">
-                            <h4>${pro.name}</h4>
-                            <div class="result-rating">
-                                <i class="fas fa-star"></i> ${pro.rating || 'New'} 
-                                <span>(${pro.projectsCompleted || 0} projects)</span>
-                            </div>
-                            <div class="result-skills">
-                                ${pro.skills.slice(0, 3).map(skill => `<span class="result-skill">${skill}</span>`).join('')}
-                                ${pro.skills.length > 3 ? `<span class="result-skill">+${pro.skills.length - 3}</span>` : ''}
-                            </div>
-                            <p class="result-description">${pro.description ? pro.description.substring(0, 100) + '...' : ''}</p>
+   displaySearchResults(providers, query) {
+    this.searchResultsContainer.innerHTML = '';
+    
+    const resultsHTML = `
+        <div class="search-results-header">
+            <h3>Found ${providers.length} professional${providers.length > 1 ? 's' : ''} for "${query}"</h3>
+            <p>Click on any card to view full profile</p>
+        </div>
+        <div class="search-results-grid">
+            ${providers.map(pro => `
+                <div class="search-result-card" onclick="window.location.href='provider-profile.html?id=${pro.id}'">
+                    <div class="result-avatar">${pro.avatar || pro.name.charAt(0)}</div>
+                    <div class="result-info">
+                        <h3 class="result-name">${pro.name}</h3>
+                        <div class="result-stats">
+                            <span class="result-rating"><i class="fas fa-star"></i> ${pro.rating || 'New'}</span>
+                            <span class="result-projects"><i class="fas fa-briefcase"></i> ${pro.projectsCompleted || 0} projects</span>
                         </div>
+                        <div class="result-skills">
+                            ${pro.skills.slice(0, 4).map(skill => `<span class="result-skill">${skill}</span>`).join('')}
+                            ${pro.skills.length > 4 ? `<span class="result-skill">+${pro.skills.length - 4}</span>` : ''}
+                        </div>
+                        <p class="result-description">${pro.description ? pro.description.substring(0, 120) + '...' : ''}</p>
+                        <button class="view-profile-btn" onclick="event.stopPropagation(); window.location.href='provider-profile.html?id=${pro.id}'">
+                            View Full Profile <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
-                `).join('')}
-            </div>
-        `;
-        
-        this.searchResultsContainer.innerHTML = resultsHTML;
-        this.searchResultsContainer.style.display = 'block';
-        this.searchResultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+                </div>
+            `).join('')}
+        </div>
+    `;
+    
+    this.searchResultsContainer.innerHTML = resultsHTML;
+    this.searchResultsContainer.style.display = 'block';
+} 
     
     displayNoResults(query) {
         this.searchResultsContainer.innerHTML = `
