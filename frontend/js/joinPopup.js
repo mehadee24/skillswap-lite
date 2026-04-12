@@ -12,8 +12,8 @@ class AuthModal {
         this.joinModal = document.getElementById('joinModal');
         this.loginModal = document.getElementById('loginModal');
         this.joinBtn = document.getElementById('joinBtn');
-        this.closeModal = document.getElementById('closeModal');
-        this.closeLoginModal = document.getElementById('closeLoginModal');
+        this.closeModalBtn = document.getElementById('closeModal');
+        this.closeLoginModalBtn = document.getElementById('closeLoginModal');
         this.showLogin = document.getElementById('showLogin');
         this.showSignup = document.getElementById('showSignup');
         this.userTypeSelect = document.getElementById('userType');
@@ -43,30 +43,25 @@ class AuthModal {
             });
         }
         
-        // Close modals - FIXED VERSION
-if (this.closeModal) {
-    this.closeModal.addEventListener('click', (e) => {
-        e.preventDefault();
-        console.log('Close join modal button clicked');
-        if (this.joinModal) {
-            this.joinModal.classList.remove('active');
-            document.body.style.overflow = '';
+        // Close join modal button
+        if (this.closeModalBtn) {
+            this.closeModalBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('Close join modal button clicked');
+                this.closeModal(this.joinModal);
+            });
         }
-    });
-}
-
-if (this.closeLoginModal) {
-    this.closeLoginModal.addEventListener('click', (e) => {
-        e.preventDefault();
-        console.log('Close login modal button clicked');
-        if (this.loginModal) {
-            this.loginModal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    });
-}
         
-        // FIXED: Switch between signup and login
+        // Close login modal button
+        if (this.closeLoginModalBtn) {
+            this.closeLoginModalBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('Close login modal button clicked');
+                this.closeModal(this.loginModal);
+            });
+        }
+        
+        // Switch between signup and login
         if (this.showLogin) {
             this.showLogin.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -88,7 +83,6 @@ if (this.closeLoginModal) {
             this.userTypeSelect.addEventListener('change', () => {
                 this.toggleProviderFields();
             });
-            // Initial check
             this.toggleProviderFields();
         }
         
@@ -138,7 +132,7 @@ if (this.closeLoginModal) {
         }
     }
     
-        closeModal(modal) {
+    closeModal(modal) {
         if (modal) {
             console.log('Closing modal:', modal.id);
             modal.classList.remove('active');
@@ -148,36 +142,26 @@ if (this.closeLoginModal) {
     
     switchToLogin() {
         console.log('Switching to login modal');
-        if (this.joinModal) {
-            this.joinModal.classList.remove('active');
-        }
-        if (this.loginModal) {
-            this.loginModal.classList.add('active');
-        }
+        this.closeModal(this.joinModal);
+        this.openModal(this.loginModal);
     }
     
     switchToSignup() {
         console.log('Switching to signup modal');
-        if (this.loginModal) {
-            this.loginModal.classList.remove('active');
-        }
-        if (this.joinModal) {
-            this.joinModal.classList.add('active');
-        }
+        this.closeModal(this.loginModal);
+        this.openModal(this.joinModal);
     }
     
     toggleProviderFields() {
         if (this.userTypeSelect && this.providerFields) {
             if (this.userTypeSelect.value === 'provider') {
                 this.providerFields.classList.remove('hidden');
-                // Make provider fields required
                 const skills = document.getElementById('skills');
                 const description = document.getElementById('description');
                 if (skills) skills.required = true;
                 if (description) description.required = true;
             } else {
                 this.providerFields.classList.add('hidden');
-                // Make provider fields not required
                 const skills = document.getElementById('skills');
                 const description = document.getElementById('description');
                 if (skills) skills.required = false;
@@ -189,7 +173,6 @@ if (this.closeLoginModal) {
     async handleSignup(e) {
         e.preventDefault();
         
-        // Get form data
         const formData = {
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
@@ -197,7 +180,6 @@ if (this.closeLoginModal) {
             userType: document.getElementById('userType').value
         };
         
-        // Add provider-specific fields if needed
         if (formData.userType === 'provider') {
             const skillsInput = document.getElementById('skills').value;
             formData.skills = skillsInput.split(',').map(skill => skill.trim());
@@ -207,26 +189,17 @@ if (this.closeLoginModal) {
         try {
             const response = await fetch(`${this.API_BASE_URL}/auth/signup`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
             });
             
             const data = await response.json();
             
             if (data.success) {
-                // Store token
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
-                
-                // Show success message
                 this.showNotification('Successfully signed up!', 'success');
-                
-                // Close modal
                 this.closeModal(this.joinModal);
-                
-                // Update UI for logged in user
                 this.updateUIForLoggedInUser(data.user);
             } else {
                 this.showNotification(data.message || 'Signup failed', 'error');
@@ -248,26 +221,17 @@ if (this.closeLoginModal) {
         try {
             const response = await fetch(`${this.API_BASE_URL}/auth/login`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
             });
             
             const data = await response.json();
             
             if (data.success) {
-                // Store token
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
-                
-                // Show success message
                 this.showNotification('Successfully logged in!', 'success');
-                
-                // Close modal
                 this.closeModal(this.loginModal);
-                
-                // Update UI for logged in user
                 this.updateUIForLoggedInUser(data.user);
             } else {
                 this.showNotification(data.message || 'Login failed', 'error');
@@ -284,27 +248,20 @@ if (this.closeLoginModal) {
     }
     
     updateUIForLoggedInUser(user) {
-        // Change join button to user menu
         if (this.joinBtn) {
             this.joinBtn.textContent = user.name.split(' ')[0];
             this.joinBtn.classList.add('logged-in');
             
-            // Store original click handler reference
-            if (!this.originalClickHandler) {
-                this.originalClickHandler = this.joinBtn.clickHandler;
-            }
+            // Remove old listeners
+            const newJoinBtn = this.joinBtn.cloneNode(true);
+            this.joinBtn.parentNode.replaceChild(newJoinBtn, this.joinBtn);
+            this.joinBtn = newJoinBtn;
             
-            // Replace click handler for logout
-            const logoutHandler = () => {
+            this.joinBtn.addEventListener('click', () => {
                 if (confirm('Do you want to logout?')) {
                     this.logout();
                 }
-            };
-            
-            // Remove old listeners and add new one
-            this.joinBtn.replaceWith(this.joinBtn.cloneNode(true));
-            this.joinBtn = document.getElementById('joinBtn');
-            this.joinBtn.addEventListener('click', logoutHandler);
+            });
         }
     }
     
@@ -312,14 +269,15 @@ if (this.closeLoginModal) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         
-        // Reset join button
         if (this.joinBtn) {
             this.joinBtn.textContent = 'Join';
             this.joinBtn.classList.remove('logged-in');
             
-            // Restore original click handler
-            this.joinBtn.replaceWith(this.joinBtn.cloneNode(true));
-            this.joinBtn = document.getElementById('joinBtn');
+            // Remove old listeners
+            const newJoinBtn = this.joinBtn.cloneNode(true);
+            this.joinBtn.parentNode.replaceChild(newJoinBtn, this.joinBtn);
+            this.joinBtn = newJoinBtn;
+            
             this.joinBtn.addEventListener('click', () => this.openModal(this.joinModal));
         }
         
@@ -327,20 +285,16 @@ if (this.closeLoginModal) {
     }
     
     showNotification(message, type) {
-        // Create notification element
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
         notification.textContent = message;
         
-        // Add to body
         document.body.appendChild(notification);
         
-        // Show notification
         setTimeout(() => {
             notification.classList.add('show');
         }, 100);
         
-        // Remove after 3 seconds
         setTimeout(() => {
             notification.classList.remove('show');
             setTimeout(() => {
