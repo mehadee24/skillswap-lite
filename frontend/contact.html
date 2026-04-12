@@ -23,12 +23,7 @@
             </div>
             
             <div class="nav-controls">
-                <!-- Language Selector -->
-                <select class="language-select" id="languageSelect">
-                    <option value="en">🇬🇧 English</option>
-                    <option value="bn">🇧🇩 বাংলা (Bangla)</option>
-                </select>
-
+            
                 <!-- Dark Mode Toggle -->
                 <button class="dark-mode-toggle" id="darkModeToggle">
                     <i class="fas fa-moon"></i>
@@ -294,56 +289,6 @@
         </div>
     </div>
 
-    <!-- Google Translate Widget -->
-    <div id="google_translate_element" style="display: none;"></div>
-    
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                includedLanguages: 'bn',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-            }, 'google_translate_element');
-        }
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const languageSelect = document.getElementById('languageSelect');
-            if (!languageSelect) return;
-            
-            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
-            languageSelect.value = savedLang;
-            
-            if (savedLang === 'bn') {
-                setTimeout(function() {
-                    const select = document.querySelector('.goog-te-combo');
-                    if (select) {
-                        select.value = 'bn';
-                        select.dispatchEvent(new Event('change'));
-                    }
-                }, 1500);
-            }
-            
-            languageSelect.addEventListener('change', function(e) {
-                const lang = e.target.value;
-                localStorage.setItem('preferredLanguage', lang);
-                
-                if (lang === 'en') {
-                    location.reload();
-                } else if (lang === 'bn') {
-                    const checkInterval = setInterval(function() {
-                        const select = document.querySelector('.goog-te-combo');
-                        if (select) {
-                            select.value = 'bn';
-                            select.dispatchEvent(new Event('change'));
-                            clearInterval(checkInterval);
-                        }
-                    }, 100);
-                }
-            });
-        });
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    
     <!-- Your other scripts -->
     <script src="js/darkmode.js"></script>
     <script src="js/search.js"></script>
