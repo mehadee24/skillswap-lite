@@ -21,14 +21,16 @@ require('./config/passport')(passport);
 // Initialize Express app
 const app = express();
 
-//(required for HTTPS detection)
+// Enable trust proxy
 app.enable('trust proxy');
 
-// Connect to MongoDB before starting server
-(async () => {
-    await connectDB();
+// Connect to MongoDB
+connectDB();
 
-// Force HTTPS redirect in production
+// ✅ SIMPLE CORS - Allow all (FIX FOR NOW)
+app.use(cors());
+
+// Force HTTPS redirect
 app.use((req, res, next) => {
     if (process.env.NODE_ENV === 'production' && req.headers['x-forwarded-proto'] !== 'https') {
         return res.redirect(301, `https://${req.headers.host}${req.url}`);
@@ -36,46 +38,19 @@ app.use((req, res, next) => {
     next();
 });
 
-// Update CORS for production
-    // app.use(cors({
-    //     origin: [
-    //         'http://localhost:3000',
-    //         'http://127.0.0.1:5500',
-    //         'https://skillswap-lite-1.netlify.app',
-    //         'https://skillswap-lite-api.onrender.com'
-    //     ],
-    //     credentials: true
-    // }));
-    app.use(cors()); // This allows ANY origin to access your API
-
-app.use(cors({
-    origin: function(origin, callback) {
-        // Allow requests with no origin (like mobile apps, curl, etc)
-        if (!origin) return callback(null, true);
-        
-        if (allowedOrigins.indexOf(origin) === -1) {
-            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-            return callback(new Error(msg), false);
-        }
-        return callback(null, true);
-    },
-    credentials: true
-}));
-
+// Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-//Update session configuration for production
+// Session configuration
 app.use(session({
     secret: process.env.SESSION_SECRET || 'your-session-secret',
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: process.env.NODE_ENV === 'production', // HTTPS only in production
-        httpOnly: true,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 24 * 60 * 60 * 1000
     }
 }));
 
@@ -90,7 +65,7 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 app.use('/api/auth', authRoutes);
 app.use('/api', searchRoutes);
 
-//Health check endpoint (useful for Render)
+// Health check endpoint
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'OK', message: 'Server is running' });
 });
@@ -113,9 +88,8 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3000;
 
 // Start server
-    app.listen(PORT, () => {
-        console.log(`Server is running on ${process.env.NODE_ENV === 'production' ? 'https' : 'http'}://localhost:${PORT}`);
-        console.log(`Frontend served from: ${path.join(__dirname, '../frontend')}`);
-        console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-    });
-})();
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Frontend served from: ${path.join(__dirname, '../frontend')}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+});
