@@ -14,6 +14,7 @@ const connectDB = require('./config/db');
 // Import routes
 const authRoutes = require('./routes/authRoutes');
 const searchRoutes = require('./routes/searchRoutes');
+const providerRoutes = require('./routes/providerRoutes');
 
 // Import Passport config
 require('./config/passport')(passport);
@@ -24,11 +25,11 @@ const app = express();
 // Enable trust proxy
 app.enable('trust proxy');
 
-// Connect to MongoDB
-connectDB();
-
-// ✅ SIMPLE CORS - Allow all (FIX FOR NOW)
+// ✅ CORS - MUST be before routes
 app.use(cors());
+
+// Connect to MongoDB (BEFORE using routes)
+connectDB();
 
 // Force HTTPS redirect
 app.use((req, res, next) => {
@@ -61,8 +62,9 @@ app.use(passport.session());
 // Serve static files from frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-// API Routes
+// API Routes (order doesn't matter much, but keep after middleware)
 app.use('/api/auth', authRoutes);
+app.use('/api/providers', providerRoutes);
 app.use('/api', searchRoutes);
 
 // Health check endpoint
@@ -70,12 +72,12 @@ app.get('/health', (req, res) => {
     res.status(200).json({ status: 'OK', message: 'Server is running' });
 });
 
-// Serve frontend for all other routes
+// Serve frontend for all other routes (must be LAST)
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
-// Error handling middleware
+// Error handling middleware (must be LAST)
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ 
