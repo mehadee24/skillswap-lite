@@ -5,13 +5,13 @@ const Client = require('../models/Client');
 
 module.exports = function(passport) {
     passport.use(new GoogleStrategy({
-        clientID: process.env.GOOGLE_CLIENT_ID || 'your-google-client-id',
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'your-google-client-secret',
-        callbackURL: '/api/auth/google/callback'
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: process.env.GOOGLE_CALLBACK_URL || '/api/auth/google/callback'
     },
     async (accessToken, refreshToken, profile, done) => {
         try {
-            // Check if user already exists
+            // Check if user already exists by Google ID
             let user = await User.findOne({ googleId: profile.id });
             
             if (user) {
@@ -33,11 +33,11 @@ module.exports = function(passport) {
                 name: profile.displayName,
                 email: profile.emails[0].value,
                 googleId: profile.id,
-                avatar: profile.photos[0].value,
+                avatar: profile.photos && profile.photos[0] ? profile.photos[0].value : null,
                 userType: 'client' // Default to client for Google signup
             });
             
-            // Create client profile by default for Google signup
+            // Create client profile for Google signup
             await Client.create({
                 userId: user._id,
                 name: user.name,
@@ -49,7 +49,7 @@ module.exports = function(passport) {
             
             return done(null, user);
         } catch (error) {
-            console.error('Google OAuth error:', error);
+            console.error('❌ Google OAuth error:', error);
             return done(error, null);
         }
     }));
@@ -65,6 +65,7 @@ module.exports = function(passport) {
             const user = await User.findById(id);
             done(null, user);
         } catch (error) {
+            console.error('❌ Deserialize error:', error);
             done(error, null);
         }
     });

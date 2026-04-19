@@ -28,3 +28,9 @@ router.get('/google/callback',
 );
 
 module.exports = router;
+
+// Logout route
+router.get('/logout', (req, res) => {
+    req.logout();
+    res.json({ success: true, message: 'Logged out successfully' });
+});

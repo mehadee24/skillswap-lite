@@ -20,13 +20,13 @@ exports.protect = async (req, res, next) => {
     if (!token) {
         return res.status(401).json({
             success: false,
-            message: 'Not authorized to access this route'
+            message: 'Not authorized - No token provided'
         });
     }
     
     try {
         // Verify token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         
         // Get user from database
         req.user = await User.findById(decoded.id).select('-password');
@@ -34,15 +34,16 @@ exports.protect = async (req, res, next) => {
         if (!req.user) {
             return res.status(401).json({
                 success: false,
-                message: 'User not found'
+                message: 'Not authorized - User not found'
             });
         }
         
         next();
     } catch (error) {
+        console.error('❌ Auth error:', error.message);
         return res.status(401).json({
             success: false,
-            message: 'Not authorized to access this route'
+            message: 'Not authorized - Invalid token'
         });
     }
 };
@@ -56,14 +57,14 @@ exports.authorize = (...roles) => {
         if (!req.user) {
             return res.status(401).json({
                 success: false,
-                message: 'Not authorized'
+                message: 'Not authorized - Please login first'
             });
         }
         
         if (!roles.includes(req.user.userType)) {
             return res.status(403).json({
                 success: false,
-                message: `User role ${req.user.userType} is not authorized to access this route`
+                message: `Access denied. ${req.user.userType} role is not authorized for this route`
             });
         }
         

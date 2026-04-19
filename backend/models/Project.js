@@ -51,7 +51,9 @@ const projectSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Method to update ratings when project is completed
+/**
+ * Complete a project and update ratings for both client and provider
+ */
 projectSchema.methods.completeProject = async function(clientRating, providerRating) {
     this.status = 'completed';
     this.completionDate = new Date();
@@ -64,31 +66,43 @@ projectSchema.methods.completeProject = async function(clientRating, providerRat
     const ServiceProvider = mongoose.model('ServiceProvider');
     const provider = await ServiceProvider.findById(this.serviceProviderId);
     
-    // Calculate new average rating
-    const allProviderProjects = await this.model('Project').find({
-        serviceProviderId: this.serviceProviderId,
-        status: 'completed',
-        providerRating: { $exists: true }
-    });
-    
-    const totalRating = allProviderProjects.reduce((sum, p) => sum + p.providerRating, 0);
-    provider.rating = totalRating / allProviderProjects.length;
-    provider.projectsCompleted = allProviderProjects.length;
-    await provider.save();
+    if (provider) {
+        const allProviderProjects = await this.model('Project').find({
+            serviceProviderId: this.serviceProviderId,
+            status: 'completed',
+            providerRating: { $exists: true }
+        });
+        
+        if (allProviderProjects.length > 0) {
+            const totalRating = allProviderProjects.reduce((sum, p) => sum + p.providerRating, 0);
+            provider.rating = totalRating / allProviderProjects.length;
+            provider.projectsCompleted = allProviderProjects.length;
+        } else {
+            provider.rating = 0;
+            provider.projectsCompleted = 0;
+        }
+        await provider.save();
+    }
     
     // Update client's average rating
     const Client = mongoose.model('Client');
     const client = await Client.findById(this.clientId);
     
-    const allClientProjects = await this.model('Project').find({
-        clientId: this.clientId,
-        status: 'completed',
-        clientRating: { $exists: true }
-    });
-    
-    const totalClientRating = allClientProjects.reduce((sum, p) => sum + p.clientRating, 0);
-    client.rating = allClientProjects.length > 0 ? totalClientRating / allClientProjects.length : 0;
-    await client.save();
+    if (client) {
+        const allClientProjects = await this.model('Project').find({
+            clientId: this.clientId,
+            status: 'completed',
+            clientRating: { $exists: true }
+        });
+        
+        if (allClientProjects.length > 0) {
+            const totalClientRating = allClientProjects.reduce((sum, p) => sum + p.clientRating, 0);
+            client.rating = totalClientRating / allClientProjects.length;
+        } else {
+            client.rating = 0;
+        }
+        await client.save();
+    }
 };
 
 module.exports = mongoose.model('Project', projectSchema);

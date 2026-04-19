@@ -65,7 +65,7 @@ exports.search = async (req, res) => {
             .filter(skill => skill.toLowerCase().includes(searchTerm))
             .slice(0, 8);
 
-        // Build search query for database
+        // Build search query for database - improved regex for partial matching
         const searchRegex = new RegExp(searchTerm.split('').join('.*'), 'i');
         
         const providers = await ServiceProvider.find({
@@ -111,7 +111,7 @@ exports.search = async (req, res) => {
             }))
         });
     } catch (error) {
-        console.error('Search error:', error);
+        console.error('❌ Search error:', error);
         res.status(500).json({ 
             success: false, 
             message: 'Server error during search' 
@@ -163,7 +163,7 @@ exports.getProviders = async (req, res) => {
             }))
         });
     } catch (error) {
-        console.error('Get providers error:', error);
+        console.error('❌ Get providers error:', error);
         res.status(500).json({ 
             success: false, 
             message: 'Server error' 
@@ -205,7 +205,7 @@ exports.getProviderById = async (req, res) => {
             }
         });
     } catch (error) {
-        console.error('Get provider error:', error);
+        console.error('❌ Get provider error:', error);
         res.status(500).json({ 
             success: false, 
             message: 'Server error' 

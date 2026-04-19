@@ -6,8 +6,8 @@ const bcrypt = require('bcryptjs');
 
 // Generate JWT Token
 const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET || 'your-secret-key', {
-        expiresIn: '30d'
+    return jwt.sign({ id }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRE || '30d'
     });
 };
 
@@ -19,6 +19,14 @@ const generateToken = (id) => {
 exports.signup = async (req, res) => {
     try {
         const { name, email, password, userType, skills, description } = req.body;
+
+        // Validation
+        if (!name || !email || !password || !userType) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Please provide all required fields' 
+            });
+        }
 
         // Check if user already exists
         const userExists = await User.findOne({ email });
@@ -45,7 +53,8 @@ exports.signup = async (req, res) => {
                 email: user.email,
                 skills: skills || [],
                 description: description || '',
-                rating: 0
+                rating: 0,
+                projectsCompleted: 0
             });
         } else {
             await Client.create({
@@ -72,7 +81,7 @@ exports.signup = async (req, res) => {
             }
         });
     } catch (error) {
-        console.error('Signup error:', error);
+        console.error('❌ Signup error:', error);
         res.status(500).json({ 
             success: false, 
             message: 'Server error during signup' 
@@ -88,6 +97,14 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
+
+        // Validation
+        if (!email || !password) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Please provide email and password' 
+            });
+        }
 
         // Check if user exists
         const user = await User.findOne({ email });
@@ -121,7 +138,7 @@ exports.login = async (req, res) => {
             }
         });
     } catch (error) {
-        console.error('Login error:', error);
+        console.error('❌ Login error:', error);
         res.status(500).json({ 
             success: false, 
             message: 'Server error during login' 
@@ -136,21 +153,17 @@ exports.login = async (req, res) => {
  */
 exports.googleCallback = async (req, res) => {
     try {
-        // This will be handled by Passport.js
-        // The user object will be attached by Passport
         const user = req.user;
         
-        // Generate token
+        if (!user) {
+            return res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}?error=auth_failed`);
+        }
+        
         const token = generateToken(user._id);
-
-        // Redirect to frontend with token
         res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}?token=${token}`);
     } catch (error) {
-        console.error('Google auth error:', error);
-        res.status(500).json({ 
-            success: false, 
-            message: 'Server error during Google authentication' 
-        });
+        console.error('❌ Google auth error:', error);
+        res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:3000'}?error=server_error`);
     }
 };
 
@@ -162,6 +175,13 @@ exports.googleCallback = async (req, res) => {
 exports.getMe = async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
+        
+        if (!user) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'User not found' 
+            });
+        }
         
         let profile = null;
         if (user.userType === 'provider') {
@@ -176,7 +196,7 @@ exports.getMe = async (req, res) => {
             profile
         });
     } catch (error) {
-        console.error('Get profile error:', error);
+        console.error('❌ Get profile error:', error);
         res.status(500).json({ 
             success: false, 
             message: 'Server error' 
