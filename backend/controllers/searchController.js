@@ -1,19 +1,48 @@
 const ServiceProvider = require('../models/ServiceProvider');
 
-// Predefined search suggestions for autocomplete
-const searchKeywords = [
-    'Web Developer', 'Web Designer', 'Web Security',
-    'App Developer', 'Machine Learning Engineer', 'AI Expert',
-    'Cyber Security Expert', 'Logo Designer', '3D Modeling',
-    'Game Developer', 'Backend Development', 'Frontend Development',
-    'UI Designer', 'Android Developer', 'iOS Developer',
-    'Cloud Architect', 'DevOps Engineer', 'Data Scientist',
-    'Blockchain Developer', 'IoT Engineer', 'QA Tester',
-    'Database Administrator', 'Network Engineer', 'ERP Consultant'
+// Comprehensive skill database for autocomplete
+const skillDatabase = [
+    // Web Development
+    'Web Developer', 'Frontend Developer', 'Backend Developer', 'Full Stack Developer',
+    'React Developer', 'Angular Developer', 'Vue.js Developer', 'Node.js Developer',
+    'PHP Developer', 'Laravel Developer', 'Django Developer', 'Flask Developer',
+    
+    // App Development
+    'App Developer', 'Mobile Developer', 'iOS Developer', 'Android Developer',
+    'Flutter Developer', 'React Native Developer', 'Swift Developer', 'Kotlin Developer',
+    
+    // AI & Machine Learning
+    'AI Expert', 'Machine Learning Engineer', 'Data Scientist', 'Deep Learning Engineer',
+    'NLP Specialist', 'Computer Vision Engineer', 'LLM Expert', 'Prompt Engineer',
+    
+    // Cybersecurity
+    'Cyber Security Expert', 'Ethical Hacker', 'Penetration Tester', 'Security Analyst',
+    'Network Security Engineer', 'Cloud Security Specialist', 'SOC Analyst',
+    
+    // Cloud & DevOps
+    'Cloud Architect', 'DevOps Engineer', 'AWS Specialist', 'Azure Expert',
+    'Google Cloud Engineer', 'Kubernetes Specialist', 'Docker Expert',
+    
+    // Game Development
+    'Game Developer', 'Unity Developer', 'Unreal Engine Developer', '3D Modeler',
+    'Game Designer', 'Game Physics Engineer',
+    
+    // UI/UX Design
+    'UI Designer', 'UX Designer', 'Product Designer', 'Figma Expert',
+    'Adobe XD Specialist', 'User Researcher',
+    
+    // Database
+    'Database Administrator', 'Database Engineer', 'SQL Expert', 'MongoDB Specialist',
+    'PostgreSQL Expert', 'Oracle DBA',
+    
+    // Other IT
+    'IT Support Specialist', 'Network Administrator', 'System Administrator',
+    'Technical Writer', 'QA Tester', 'Automation Engineer', 'Blockchain Developer',
+    'IoT Engineer', 'Embedded Systems Engineer'
 ];
 
 /**
- * @desc    Search service providers and get suggestions
+ * @desc    Search service providers with intelligent matching
  * @route   GET /api/search?q=keyword
  * @access  Public
  */
@@ -21,7 +50,7 @@ exports.search = async (req, res) => {
     try {
         const { q } = req.query;
         
-        if (!q || q.length < 1) {
+        if (!q || q.trim().length === 0) {
             return res.json({ 
                 success: true, 
                 suggestions: [],
@@ -29,29 +58,47 @@ exports.search = async (req, res) => {
             });
         }
 
-        const searchTerm = q.toLowerCase();
+        const searchTerm = q.trim().toLowerCase();
+        
+        // Get intelligent suggestions from skill database
+        const suggestions = skillDatabase
+            .filter(skill => skill.toLowerCase().includes(searchTerm))
+            .slice(0, 8);
 
-        // Get suggestions from predefined keywords
-        const suggestions = searchKeywords.filter(keyword => 
-            keyword.toLowerCase().includes(searchTerm)
-        ).slice(0, 5);
-
-        // Search for service providers in database
+        // Build search query for database
+        const searchRegex = new RegExp(searchTerm.split('').join('.*'), 'i');
+        
         const providers = await ServiceProvider.find({
             $or: [
-                { name: { $regex: searchTerm, $options: 'i' } },
+                { name: { $regex: searchRegex } },
                 { skills: { $in: [new RegExp(searchTerm, 'i')] } },
                 { description: { $regex: searchTerm, $options: 'i' } },
                 { currentlyWorkingOn: { $regex: searchTerm, $options: 'i' } }
             ]
         })
         .select('name skills rating projectsCompleted description currentlyWorkingOn profileImage')
+        .sort({ rating: -1 })
         .limit(20);
+
+        // Calculate relevance score and sort
+        const scoredProviders = providers.map(provider => {
+            let score = 0;
+            const nameMatch = provider.name.toLowerCase().includes(searchTerm);
+            const skillMatch = provider.skills.some(s => s.toLowerCase().includes(searchTerm));
+            const exactSkillMatch = provider.skills.some(s => s.toLowerCase() === searchTerm);
+            
+            if (exactSkillMatch) score += 100;
+            if (nameMatch) score += 50;
+            if (skillMatch) score += 30;
+            score += provider.rating || 0;
+            
+            return { ...provider.toObject(), score };
+        }).sort((a, b) => b.score - a.score);
 
         res.json({
             success: true,
             suggestions,
-            providers: providers.map(provider => ({
+            providers: scoredProviders.map(provider => ({
                 id: provider._id,
                 name: provider.name,
                 skills: provider.skills,
@@ -59,7 +106,8 @@ exports.search = async (req, res) => {
                 projectsCompleted: provider.projectsCompleted,
                 description: provider.description,
                 currentlyWorkingOn: provider.currentlyWorkingOn,
-                avatar: provider.name.charAt(0).toUpperCase()
+                avatar: provider.name.charAt(0).toUpperCase(),
+                relevanceScore: provider.score
             }))
         });
     } catch (error) {
@@ -72,7 +120,7 @@ exports.search = async (req, res) => {
 };
 
 /**
- * @desc    Get all service providers (with filters)
+ * @desc    Get all service providers with filtering
  * @route   GET /api/providers
  * @access  Public
  */
@@ -81,17 +129,12 @@ exports.getProviders = async (req, res) => {
         const { skill, minRating, search } = req.query;
         let query = {};
 
-        // Filter by skill
         if (skill) {
             query.skills = { $regex: skill, $options: 'i' };
         }
-
-        // Filter by minimum rating
         if (minRating) {
             query.rating = { $gte: parseFloat(minRating) };
         }
-
-        // General search
         if (search) {
             query.$or = [
                 { name: { $regex: search, $options: 'i' } },
