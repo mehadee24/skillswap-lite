@@ -1740,3 +1740,144 @@ body {
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
+
+
+/* ======================================== */
+/* Palestine Flag Styling */
+/* ======================================== */
+
+/* Palestine Flag Link */
+.palestine-flag-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.palestine-flag-link:hover {
+    opacity: 0.9;
+}
+
+.palestine-flag-link:hover .palestine-flag {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    border-color: var(--accent-color);
+}
+
+/* Palestine Flag Styling */
+.palestine-flag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    padding: 4px 8px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.palestine-flag svg {
+    width: 30px;
+    height: 20px;
+    border-radius: 3px;
+    transition: transform 0.3s ease;
+}
+
+.palestine-flag-link:hover .palestine-flag svg {
+    transform: scale(1.05);
+}
+
+/* Dark mode adjustment */
+[data-theme="dark"] .palestine-flag {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+/* Tooltip on hover */
+.palestine-flag-link::after {
+    content: "🇵🇸 Remember the children of Palestine";
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    pointer-events: none;
+    font-family: inherit;
+    letter-spacing: 0.3px;
+}
+
+.palestine-flag-link:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Tooltip arrow */
+.palestine-flag-link::before {
+    content: "";
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent rgba(0, 0, 0, 0.85) transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.palestine-flag-link:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .palestine-flag svg {
+        width: 24px;
+        height: 16px;
+    }
+    
+    .palestine-flag-link::after {
+        font-size: 9px;
+        white-space: normal;
+        width: 160px;
+        text-align: center;
+        bottom: -45px;
+    }
+    
+    .palestine-flag-link::before {
+        bottom: -10px;
+    }
+}
+
+/* Animation for flag on page load */
+.palestine-flag {
+    animation: gentleFadeIn 0.5s ease-out;
+}
+
+@keyframes gentleFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
