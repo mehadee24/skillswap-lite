@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provider Dashboard - SkillSwap Lite</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" style="text-decoration: none;">
+                <i class="fas fa-code"></i>
+                <span>SkillSwap Lite</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="why-choose-us.html">Why Choose Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="nav-controls">
+                <button class="dark-mode-toggle" id="darkModeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="join-btn" id="joinBtn">Join</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <section class="dashboard-header">
+        <div class="container">
+            <h1><i class="fas fa-tachometer-alt"></i> Provider Dashboard</h1>
+            <p>Manage your professional profile and showcase your skills to clients</p>
+        </div>
+    </section>
+
+    <!-- Dashboard Content -->
+    <section class="dashboard-container">
+        <div class="dashboard-sidebar">
+            <div class="profile-summary" id="profileSummary">
+                <div class="summary-avatar" id="dashboardAvatar">M</div>
+                <h3 id="dashboardName">Loading...</h3>
+                <div class="summary-rating" id="dashboardRating">
+                    <i class="fas fa-star"></i> <span>0</span>
+                </div>
+                <div class="summary-projects">
+                    <i class="fas fa-briefcase"></i> <span id="dashboardProjects">0</span> projects
+                </div>
+            </div>
+            <div class="dashboard-menu">
+                <button class="menu-item active" onclick="showSection('profile')">
+                    <i class="fas fa-user-edit"></i> Edit Profile
+                </button>
+                <button class="menu-item" onclick="showSection('skills')">
+                    <i class="fas fa-code"></i> Skills & Expertise
+                </button>
+                <button class="menu-item" onclick="showSection('projects')">
+                    <i class="fas fa-project-diagram"></i> My Projects
+                </button>
+                <button class="menu-item" onclick="showSection('reviews')">
+                    <i class="fas fa-star"></i> Reviews
+                </button>
+            </div>
+        </div>
+
+        <div class="dashboard-main">
+            <!-- Edit Profile Section -->
+            <div id="profileSection" class="dashboard-section active">
+                <h2><i class="fas fa-user-edit"></i> Edit Profile</h2>
+                <form id="profileForm" class="dashboard-form">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="profileName" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="profileEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-heading"></i> Professional Title</label>
+                        <input type="text" id="profileTitle" placeholder="e.g., Senior Full Stack Developer">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-align-left"></i> Bio / Description</label>
+                        <textarea id="profileDescription" rows="5" placeholder="Tell clients about your experience, expertise, and what makes you unique..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-chart-line"></i> Currently Working On</label>
+                        <input type="text" id="profileCurrentWork" placeholder="e.g., Building an e-commerce platform">
+                    </div>
+                    <button type="submit" class="save-btn">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </form>
+            </div>
+
+            <!-- Skills Section -->
+            <div id="skillsSection" class="dashboard-section">
+                <h2><i class="fas fa-code"></i> Skills & Expertise</h2>
+                <div class="skills-management">
+                    <div class="add-skill">
+                        <input type="text" id="newSkill" placeholder="Add a new skill (e.g., React, Python, UI Design)">
+                        <button onclick="addSkill()" class="add-skill-btn">
+                            <i class="fas fa-plus"></i> Add Skill
+                        </button>
+                    </div>
+                    <div class="skills-list-edit" id="skillsList"></div>
+                    <button onclick="saveSkills()" class="save-skills-btn">
+                        <i class="fas fa-save"></i> Save Skills
+                    </button>
+                </div>
+            </div>
+
+            <!-- Projects Section -->
+            <div id="projectsSection" class="dashboard-section">
+                <h2><i class="fas fa-project-diagram"></i> My Projects</h2>
+                <div id="projectsList" class="projects-list">
+                    <p class="loading-text">Loading projects...</p>
+                </div>
+            </div>
+
+            <!-- Reviews Section -->
+            <div id="reviewsSection" class="dashboard-section">
+                <h2><i class="fas fa-star"></i> Client Reviews</h2>
+                <div id="reviewsList" class="reviews-list">
+                    <p class="loading-text">Loading reviews...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About SkillSwap</h3>
+                <p>Connect with top IT professionals for your next project.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/syed.mehadee" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://github.com/mehadee24" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/syed-mehadee-2434152a5/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.instagram.com/sy.mde/" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SkillSwap Lite. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <style>
+        /* Dashboard Styles */
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+        .dashboard-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .dashboard-header h1 i {
+            margin-right: 10px;
+        }
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: flex;
+            gap: 30px;
+        }
+        .dashboard-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+        .profile-summary {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+        .summary-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            font-weight: bold;
+            margin: 0 auto 15px;
+        }
+        .profile-summary h3 {
+            margin-bottom: 8px;
+        }
+        .summary-rating {
+            color: #ffc107;
+            margin-bottom: 8px;
+        }
+        .dashboard-menu {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .menu-item {
+            width: 100%;
+            padding: 12px 15px;
+            text-align: left;
+            background: none;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+        }
+        .menu-item:hover, .menu-item.active {
+            background: var(--bg-secondary);
+            color: var(--accent-color);
+        }
+        .dashboard-main {
+            flex: 1;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+        }
+        .dashboard-section {
+            display: none;
+        }
+        .dashboard-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        .dashboard-section h2 {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .dashboard-section h2 i {
+            color: var(--accent-color);
+            margin-right: 10px;
+        }
+        .dashboard-form .form-group {
+            margin-bottom: 20px;
+        }
+        .dashboard-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .dashboard-form input,
+        .dashboard-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--input-bg);
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        .dashboard-form input:focus,
+        .dashboard-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+        .save-btn, .save-skills-btn {
+            background: var(--accent-color);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .save-btn:hover, .save-skills-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+        .add-skill {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .add-skill input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--input-bg);
+            color: var(--text-primary);
+        }
+        .add-skill-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .add-skill-btn:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+        .skill-tag-edit {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-secondary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin: 5px;
+        }
+        .skill-tag-edit button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #ff4757;
+            font-size: 14px;
+        }
+        .project-card, .review-card {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .project-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .project-status {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+        .status-completed { background: #28a745; color: white; }
+        .status-pending { background: #ffc107; color: #333; }
+        .status-in-progress { background: #17a2b8; color: white; }
+        .loading-text {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 768px) {
+            .dashboard-container { flex-direction: column; }
+            .dashboard-sidebar { width: 100%; }
+        }
+    </style>
+
+    <!-- Scripts -->
+    <script src="js/darkmode.js"></script>
+    <script src="js/joinPopup.js"></script>
+    <script src="js/provider-dashboard.js"></script>
+</body>
+</html>
