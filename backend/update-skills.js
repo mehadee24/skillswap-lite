@@ -4,53 +4,35 @@ dotenv.config();
 
 const ServiceProvider = require('./models/ServiceProvider');
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/skillswap';
+const MONGODB_URI = process.env.MONGODB_URI;
+
+const skillUpdates = [
+    { name: "Mehadee", skills: ["Web Development", "Full Stack Developer", "React Developer", "Node.js Developer", "Machine Learning Engineer", "AI Expert", "Python Developer"] },
+    { name: "Rakib", skills: ["Game Developer", "Unity Developer", "Unreal Engine Developer", "C++ Developer", "3D Modeling", "Game Designer"] },
+    { name: "Alamin", skills: ["UI Designer", "UX Designer", "Web Designer", "Figma Expert", "Frontend Developer", "Mobile App Designer"] },
+    { name: "Tanvir Ahmed", skills: ["Cloud Architect", "AWS Specialist", "DevOps Engineer", "Kubernetes Specialist", "Azure Expert"] },
+    { name: "Sarah Khan", skills: ["Cyber Security Expert", "Ethical Hacker", "Penetration Tester", "Security Analyst", "Network Security Engineer"] },
+    { name: "Kamal Hossain", skills: ["App Developer", "Mobile Developer", "Flutter Developer", "React Native Developer", "iOS Developer", "Android Developer"] },
+    { name: "Farzana Yesmin", skills: ["Frontend Developer", "React Developer", "Vue.js Developer", "UI Developer", "Web Developer"] }
+];
 
 async function updateSkills() {
     try {
         await mongoose.connect(MONGODB_URI);
-        console.log('✅ Connected to MongoDB');
+        console.log(':white_check_mark: Connected to MongoDB');
 
-        // Update Mehadee
-        await ServiceProvider.updateOne(
-            { name: "Mehadee" },
-            { 
-                $set: { 
-                    skills: ["Full Stack Development", "Web Development", "Machine Learning", "Artificial Intelligence", "React", "Node.js", "Python"],
-                    description: "Full Stack Developer and AI specialist with 5+ years of experience building scalable web applications and AI solutions."
-                }
-            }
-        );
-        console.log('✅ Updated Mehadee');
+        for (const update of skillUpdates) {
+            const result = await ServiceProvider.updateOne(
+                { name: update.name },
+                { $set: { skills: update.skills } }
+            );
+            console.log(`✅ Updated ${update.name}: ${result.modifiedCount > 0 ? 'success' : 'no change'}`);
+        }
 
-        // Update Rakib
-        await ServiceProvider.updateOne(
-            { name: "Rakib" },
-            { 
-                $set: { 
-                    skills: ["Game Development", "Unreal Engine", "Unity", "3D Modeling", "C++", "Game Physics", "Virtual Reality"],
-                    description: "Expert Game Developer with 4+ years of experience in Unreal Engine and Unity. Specialized in immersive gameplay and VR experiences."
-                }
-            }
-        );
-        console.log('✅ Updated Rakib');
-
-        // Update Alamin
-        await ServiceProvider.updateOne(
-            { name: "Alamin" },
-            { 
-                $set: { 
-                    skills: ["UI/UX Design", "Web Design", "Mobile Design", "Figma", "Adobe XD", "User Research", "Prototyping"],
-                    description: "Creative UI/UX Designer focused on creating beautiful, user-friendly interfaces for web and mobile applications."
-                }
-            }
-        );
-        console.log('✅ Updated Alamin');
-
-        console.log('\n🎉 All skills updated successfully!');
+        console.log('\n:tada: All skills updated!');
         process.exit(0);
     } catch (error) {
-        console.error('❌ Error:', error);
+        console.error(':x: Error:', error);
         process.exit(1);
     }
 }
