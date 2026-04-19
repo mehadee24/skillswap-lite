@@ -75,6 +75,12 @@ body {
     font-size: 1.5rem;
     font-weight: bold;
     color: var(--accent-color);
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.nav-logo:hover {
+    opacity: 0.8;
 }
 
 .nav-logo i {
