@@ -16,7 +16,7 @@ router.get('/me', protect, getMe);
 
 // Google OAuth routes
 router.get('/google', passport.authenticate('google', { 
-    scope: ['profile', 'email'] 
+    scope: ['profile', 'email']
 }));
 
 router.get('/google/callback', 
@@ -28,9 +28,3 @@ router.get('/google/callback',
 );
 
 module.exports = router;
-
-// Logout route
-router.get('/logout', (req, res) => {
-    req.logout();
-    res.json({ success: true, message: 'Logged out successfully' });
-});
