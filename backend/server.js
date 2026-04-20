@@ -95,9 +95,3 @@ app.listen(PORT, () => {
     console.log(`Frontend served from: ${path.join(__dirname, '../frontend')}`);
     console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });
-
-// Add this with other route imports
-const paymentRoutes = require('./routes/paymentRoutes');
-
-// Add this with other app.use statements
-app.use('/api/payment', paymentRoutes);

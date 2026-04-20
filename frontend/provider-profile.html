@@ -56,58 +56,5 @@
     <script src="js/darkmode.js"></script>
     <script src="js/joinPopup.js"></script>
     <script src="js/profile.js"></script>
-<!-- bKash Payment Modal -->
-<div class="modal-overlay" id="bkashPaymentModal">
-    <div class="modal-container payment-modal">
-        <button class="modal-close" id="closeBkashModal">&times;</button>
-        
-        <div class="modal-header">
-            <div class="bkash-logo">
-                <img src="https://www.bkash.com/sites/default/files/logo_0.png" alt="bKash" style="height: 40px;">
-                <h2>bKash Demo Payment</h2>
-            </div>
-            <p>Complete your payment securely with bKash</p>
-        </div>
-
-        <div class="modal-body">
-            <div class="provider-info-payment" id="bkashProviderInfo">
-                <!-- Provider info will be inserted here -->
-            </div>
-
-            <div class="payment-amount-section">
-                <label>Project Amount (BDT)</label>
-                <input type="number" id="bkashAmount" class="payment-input" placeholder="Enter amount" value="5000" min="100">
-            </div>
-
-            <div class="bkash-instructions">
-                <div class="instruction-header">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Demo Instructions (Sandbox)</span>
-                </div>
-                <div class="instruction-content">
-                    <p>📱 <strong>Demo bKash Number:</strong> <span class="demo-number">017XXXXXXXX</span></p>
-                    <p>💳 <strong>Demo PIN:</strong> <span class="demo-number">12345</span></p>
-                    <p>⚠️ <strong>Note:</strong> This is a SANDBOX demo. No real money will be deducted.</p>
-                    <p>🔐 <strong>To get sandbox credentials:</strong> <a href="https://developer.bka.sh/" target="_blank">bKash Developer Portal</a></p>
-                </div>
-            </div>
-
-            <button id="bkashPayButton" class="payment-submit-btn" disabled>
-                <i class="fas fa-mobile-alt"></i> Pay with bKash
-            </button>
-
-            <div class="payment-note">
-                <i class="fas fa-shield-alt"></i>
-                <span>This is a demonstration using bKash sandbox environment.</span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- bKash Scripts -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://scripts.sandbox.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout-sandbox.js"></script>
-<!-- Add at the end of body, before closing -->
-<script src="js/bkash-payment.js"></script>
 </body>
 </html>
