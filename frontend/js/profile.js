@@ -79,7 +79,7 @@ function renderProfile(provider) {
             <button class="contact-btn" onclick="contactProvider('${provider.email}')">
                 <i class="fas fa-envelope"></i> Contact Provider
             </button>
-            <button class="hire-btn" onclick="window.open('https://merchantdemo.sandbox.bka.sh/frontend/checkout')">
+            <button class="hire-btn" onclick="window.open('https://i.imgur.com/tt4NRbu.jpeg')">
                 <i class="fas fa-handshake"></i> Hire Now
             </button>
         </div>
